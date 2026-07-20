@@ -48,6 +48,8 @@ select = ["E", "F", "I", "B", "UP", "RUF"]
 "tests/test_migration_0005.py" = ["E501"]
 "migrations/versions/0006_personal_collection.py" = ["E501"]
 "tests/test_migration_0006.py" = ["E501"]
+"migrations/versions/0007_hardware_and_playability.py" = ["E501"]
+"tests/test_migration_0007.py" = ["E501"]
 
 [tool.mypy]
 python_version = "3.12"
