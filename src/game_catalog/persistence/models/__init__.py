@@ -21,6 +21,7 @@ from game_catalog.persistence.models.identity import (
     Release,
 )
 from game_catalog.persistence.models.operations import Backup, ExecutionRun, SchemaMetadata
+from game_catalog.persistence.models.personal import PersonalCollectionItem
 from game_catalog.persistence.models.reference import (
     Company,
     Ecosystem,
@@ -69,6 +70,7 @@ __all__ = [
     "GameRelation",
     "GameScore",
     "Manufacturer",
+    "PersonalCollectionItem",
     "Platform",
     "PlatformExternalId",
     "PlatformLockAssessment",

@@ -46,6 +46,8 @@ select = ["E", "F", "I", "B", "UP", "RUF"]
 [tool.ruff.lint.per-file-ignores]
 "migrations/versions/0005_catalog_facts_and_availability.py" = ["E501"]
 "tests/test_migration_0005.py" = ["E501"]
+"migrations/versions/0006_personal_collection.py" = ["E501"]
+"tests/test_migration_0006.py" = ["E501"]
 
 [tool.mypy]
 python_version = "3.12"
