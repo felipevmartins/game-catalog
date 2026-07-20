@@ -15,7 +15,7 @@ def migrated_database(tmp_path: Path) -> tuple[Config, Path]:
     config = Config("alembic.ini")
     database = tmp_path / "sources.db"
     config.set_main_option("sqlalchemy.url", f"sqlite:///{database}")
-    command.upgrade(config, "head")
+    command.upgrade(config, "0004_sources_and_external_ids")
     return config, database
 
 

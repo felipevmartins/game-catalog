@@ -15,7 +15,7 @@ def migrated_database(tmp_path: Path) -> tuple[Config, Path]:
     config = Config("alembic.ini")
     database = tmp_path / "operations.db"
     config.set_main_option("sqlalchemy.url", f"sqlite:///{database}")
-    command.upgrade(config, "head")
+    command.upgrade(config, "0008_incremental_operations")
     return config, database
 
 

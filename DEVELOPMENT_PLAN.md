@@ -98,4 +98,5 @@ prova vertical + revisão de termos → coletores externos
 - Migration `0006_personal_collection`: **implementada e testada** em SQLite real.
 - Migration `0007_hardware_and_playability`: **implementada e testada** em SQLite real.
 - Migration `0008_incremental_operations`: **implementada e testada** em SQLite real.
-- Próxima ação: implementar `0009_seed_reference_data`.
+- Migration `0009_seed_reference_data`: **implementada e testada** em SQLite real.
+- Próxima ação: implementar repositórios, Unit of Work e serviços de identidade.
