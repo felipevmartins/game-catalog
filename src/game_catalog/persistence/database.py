@@ -5,6 +5,7 @@ from sqlite3 import Connection as SQLiteConnection
 from sqlalchemy import Engine, create_engine, event, text
 from sqlalchemy.engine import make_url
 from sqlalchemy.engine.base import Engine as EngineType
+from sqlalchemy.orm import Session, sessionmaker
 
 
 def create_database_engine(database_url: str) -> EngineType:
@@ -32,3 +33,8 @@ def foreign_keys_enabled(engine: Engine) -> bool:
     with engine.connect() as connection:
         value = connection.execute(text("PRAGMA foreign_keys")).scalar_one()
         return bool(value == 1)
+
+
+def create_session_factory(engine: Engine) -> sessionmaker[Session]:
+    """Create sessions whose transaction lifecycle is owned by a Unit of Work."""
+    return sessionmaker(bind=engine, expire_on_commit=False)

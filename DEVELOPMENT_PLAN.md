@@ -99,4 +99,5 @@ prova vertical + revisão de termos → coletores externos
 - Migration `0007_hardware_and_playability`: **implementada e testada** em SQLite real.
 - Migration `0008_incremental_operations`: **implementada e testada** em SQLite real.
 - Migration `0009_seed_reference_data`: **implementada e testada** em SQLite real.
-- Próxima ação: implementar repositórios, Unit of Work e serviços de identidade.
+- Repositórios iniciais, Unit of Work e criação transacional de Game/Edition: **implementados e testados**.
+- Próxima ação: expor inicialização, criação e listagem do catálogo na CLI.
