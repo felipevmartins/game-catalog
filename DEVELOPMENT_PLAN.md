@@ -93,4 +93,5 @@ prova vertical + revisão de termos → coletores externos
 - Migration `0001_foundation`: **implementada e testada** em SQLite real.
 - Migration `0002_reference_catalog`: **implementada e testada** em SQLite real.
 - Migration `0003_game_identity`: **implementada e testada** em SQLite real.
-- Próxima ação: implementar `0004_sources_and_external_ids` e proveniência.
+- Migration `0004_sources_and_external_ids`: **implementada e testada** em SQLite real.
+- Próxima ação: implementar `0005_catalog_facts_and_availability`.
