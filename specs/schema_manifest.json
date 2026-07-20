@@ -1,0 +1,165 @@
+{
+  "version": "1.3",
+  "status": "ready_for_independent_audit",
+  "tables": [
+    "schema_metadata",
+    "execution_runs",
+    "backups",
+    "regions",
+    "manufacturers",
+    "ecosystems",
+    "companies",
+    "franchises",
+    "franchise_ecosystems",
+    "platforms",
+    "games",
+    "game_editions",
+    "releases",
+    "products",
+    "game_aliases",
+    "game_relations",
+    "game_contents",
+    "sources",
+    "source_references",
+    "record_source_links",
+    "catalog_assertions",
+    "game_external_ids",
+    "edition_external_ids",
+    "release_external_ids",
+    "platform_external_ids",
+    "company_external_ids",
+    "franchise_external_ids",
+    "product_external_ids",
+    "franchise_ownerships",
+    "game_companies",
+    "game_scores",
+    "game_primary_scores",
+    "game_lengths",
+    "availability_offers",
+    "platform_lock_reasons",
+    "platform_lock_assessments",
+    "game_platform_lock_reasons",
+    "personal_collection_items",
+    "hardware_models",
+    "hardware_model_external_ids",
+    "personal_hardware_units",
+    "accessory_models",
+    "accessory_platforms",
+    "personal_accessory_units",
+    "personal_capabilities",
+    "hardware_compatibility_rules",
+    "compatibility_rule_releases",
+    "game_requirement_groups",
+    "game_hardware_requirements",
+    "personal_playability",
+    "run_tasks",
+    "review_queue",
+    "change_log"
+  ],
+  "migrations": [
+    {
+      "name": "0001_foundation",
+      "tables": [
+        "schema_metadata",
+        "execution_runs",
+        "backups"
+      ]
+    },
+    {
+      "name": "0002_reference_catalog",
+      "tables": [
+        "regions",
+        "manufacturers",
+        "ecosystems",
+        "companies",
+        "franchises",
+        "franchise_ecosystems",
+        "platforms"
+      ]
+    },
+    {
+      "name": "0003_game_identity",
+      "tables": [
+        "games",
+        "game_editions",
+        "releases",
+        "products",
+        "game_aliases",
+        "game_relations",
+        "game_contents"
+      ]
+    },
+    {
+      "name": "0004_sources_and_external_ids",
+      "tables": [
+        "sources",
+        "source_references",
+        "record_source_links",
+        "catalog_assertions",
+        "game_external_ids",
+        "edition_external_ids",
+        "release_external_ids",
+        "platform_external_ids",
+        "company_external_ids",
+        "franchise_external_ids",
+        "product_external_ids"
+      ]
+    },
+    {
+      "name": "0005_catalog_facts_and_availability",
+      "tables": [
+        "franchise_ownerships",
+        "game_companies",
+        "game_scores",
+        "game_primary_scores",
+        "game_lengths",
+        "availability_offers",
+        "platform_lock_reasons",
+        "platform_lock_assessments",
+        "game_platform_lock_reasons"
+      ]
+    },
+    {
+      "name": "0006_personal_collection",
+      "tables": [
+        "personal_collection_items"
+      ]
+    },
+    {
+      "name": "0007_hardware_and_playability",
+      "tables": [
+        "hardware_models",
+        "hardware_model_external_ids",
+        "personal_hardware_units",
+        "accessory_models",
+        "accessory_platforms",
+        "personal_accessory_units",
+        "personal_capabilities",
+        "hardware_compatibility_rules",
+        "compatibility_rule_releases",
+        "game_requirement_groups",
+        "game_hardware_requirements",
+        "personal_playability"
+      ]
+    },
+    {
+      "name": "0008_incremental_operations",
+      "tables": [
+        "run_tasks",
+        "review_queue",
+        "change_log"
+      ]
+    },
+    {
+      "name": "0009_seed_reference_data",
+      "tables": []
+    }
+  ],
+  "obsolete_physical_tables": [
+    "game_platforms",
+    "personal_collection",
+    "import_runs",
+    "update_queue",
+    "compatibility_rule_games"
+  ]
+}
