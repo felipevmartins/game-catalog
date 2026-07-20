@@ -34,7 +34,14 @@ from game_catalog.persistence.models.identity import (
     Product,
     Release,
 )
-from game_catalog.persistence.models.operations import Backup, ExecutionRun, SchemaMetadata
+from game_catalog.persistence.models.operations import (
+    Backup,
+    ChangeLog,
+    ExecutionRun,
+    ReviewItem,
+    RunTask,
+    SchemaMetadata,
+)
 from game_catalog.persistence.models.personal import PersonalCollectionItem
 from game_catalog.persistence.models.reference import (
     Company,
@@ -65,6 +72,7 @@ __all__ = [
     "AvailabilityOffer",
     "Backup",
     "CatalogAssertion",
+    "ChangeLog",
     "Company",
     "CompanyExternalId",
     "CompatibilityRuleRelease",
@@ -107,6 +115,8 @@ __all__ = [
     "Region",
     "Release",
     "ReleaseExternalId",
+    "ReviewItem",
+    "RunTask",
     "SchemaMetadata",
     "Source",
     "SourceReference",

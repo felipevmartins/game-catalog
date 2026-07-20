@@ -151,3 +151,66 @@ class Backup(Base):
     retention_reason: Mapped[str | None] = mapped_column(Text)
     deleted_at: Mapped[str | None] = mapped_column(Text)
     restored_at: Mapped[str | None] = mapped_column(Text)
+
+
+class RunTask(Base):
+    __tablename__ = "run_tasks"
+    id: Mapped[str] = mapped_column(Text, primary_key=True)
+    execution_run_id: Mapped[str] = mapped_column(Text, ForeignKey("execution_runs.id"))
+    task_type: Mapped[str] = mapped_column(Text)
+    entity_type: Mapped[str | None] = mapped_column(Text)
+    entity_id: Mapped[str | None] = mapped_column(Text)
+    source_id: Mapped[str | None] = mapped_column(Text, ForeignKey("sources.id"))
+    priority: Mapped[str] = mapped_column(Text)
+    status: Mapped[str] = mapped_column(Text)
+    idempotency_policy: Mapped[str] = mapped_column(Text)
+    scheduled_for: Mapped[str] = mapped_column(Text)
+    attempt_count: Mapped[int] = mapped_column(Integer, default=0, server_default="0")
+    max_attempts: Mapped[int] = mapped_column(Integer, default=3, server_default="3")
+    deduplication_key: Mapped[str] = mapped_column(Text)
+    lock_owner: Mapped[str | None] = mapped_column(Text)
+    lock_token: Mapped[str | None] = mapped_column(Text)
+    locked_at: Mapped[str | None] = mapped_column(Text)
+    lock_expires_at: Mapped[str | None] = mapped_column(Text)
+    last_error_redacted: Mapped[str | None] = mapped_column(Text)
+    created_at: Mapped[str] = mapped_column(Text)
+    updated_at: Mapped[str] = mapped_column(Text)
+    finished_at: Mapped[str | None] = mapped_column(Text)
+
+
+class ReviewItem(Base):
+    __tablename__ = "review_queue"
+    id: Mapped[str] = mapped_column(Text, primary_key=True)
+    entity_type: Mapped[str] = mapped_column(Text)
+    entity_id: Mapped[str] = mapped_column(Text)
+    field_name: Mapped[str | None] = mapped_column(Text)
+    current_value_json: Mapped[str | None] = mapped_column(Text)
+    candidate_value_json: Mapped[str | None] = mapped_column(Text)
+    reason: Mapped[str] = mapped_column(Text)
+    source_reference_id: Mapped[str | None] = mapped_column(
+        Text, ForeignKey("source_references.id")
+    )
+    priority: Mapped[str] = mapped_column(Text)
+    status: Mapped[str] = mapped_column(Text)
+    deduplication_key: Mapped[str] = mapped_column(Text)
+    created_at: Mapped[str] = mapped_column(Text)
+    reviewed_at: Mapped[str | None] = mapped_column(Text)
+    reviewed_by: Mapped[str | None] = mapped_column(Text)
+    review_notes: Mapped[str | None] = mapped_column(Text)
+
+
+class ChangeLog(Base):
+    __tablename__ = "change_log"
+    id: Mapped[str] = mapped_column(Text, primary_key=True)
+    execution_run_id: Mapped[str] = mapped_column(Text, ForeignKey("execution_runs.id"))
+    entity_type: Mapped[str] = mapped_column(Text)
+    entity_id: Mapped[str] = mapped_column(Text)
+    field_name: Mapped[str | None] = mapped_column(Text)
+    old_value_json: Mapped[str | None] = mapped_column(Text)
+    new_value_json: Mapped[str | None] = mapped_column(Text)
+    change_type: Mapped[str] = mapped_column(Text)
+    source_reference_id: Mapped[str | None] = mapped_column(
+        Text, ForeignKey("source_references.id")
+    )
+    changed_at: Mapped[str] = mapped_column(Text)
+    notes: Mapped[str | None] = mapped_column(Text)
