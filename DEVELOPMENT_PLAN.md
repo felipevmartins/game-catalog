@@ -87,6 +87,8 @@ prova vertical + revisão de termos → coletores externos
 
 ## Estado
 
-- Etapa atual: **1 — Baseline canônico**.
-- Implementação de código: ainda não iniciada.
-- Próxima ação após aprovação do baseline: Etapa 2.
+- Etapa 1 — Baseline canônico: **concluída**.
+- Etapa 2 — Fundação Python: **concluída** com ambiente reproduzível, CI e gates locais.
+- Etapa atual: **3 — Schema e migrations**.
+- Migration `0001_foundation`: **implementada e testada** em SQLite real.
+- Próxima ação: implementar `0002_reference_catalog` e seus testes de integridade.

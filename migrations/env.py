@@ -5,6 +5,7 @@ from logging.config import fileConfig
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 
+import game_catalog.persistence.models  # noqa: F401
 from game_catalog.persistence.base import Base
 
 config = context.config
@@ -32,7 +33,7 @@ def run_migrations_online() -> None:
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
     )
-    with connectable.connect() as connection:
+    with connectable.begin() as connection:
         connection.exec_driver_sql("PRAGMA foreign_keys=ON")
         context.configure(
             connection=connection, target_metadata=target_metadata, render_as_batch=True
