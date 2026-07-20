@@ -91,4 +91,5 @@ prova vertical + revisão de termos → coletores externos
 - Etapa 2 — Fundação Python: **concluída** com ambiente reproduzível, CI e gates locais.
 - Etapa atual: **3 — Schema e migrations**.
 - Migration `0001_foundation`: **implementada e testada** em SQLite real.
-- Próxima ação: implementar `0002_reference_catalog` e seus testes de integridade.
+- Migration `0002_reference_catalog`: **implementada e testada** em SQLite real.
+- Próxima ação: implementar `0003_game_identity` e seus testes de identidade estrutural.

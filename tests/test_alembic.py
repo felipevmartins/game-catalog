@@ -39,7 +39,7 @@ def test_alembic_upgrade_head_on_real_sqlite_file(tmp_path: Path) -> None:
     with engine.connect() as connection:
         metadata = connection.execute(text("SELECT * FROM schema_metadata")).mappings().one()
         assert metadata["id"] == 1
-        assert metadata["schema_version"] == "0001_foundation"
+        assert metadata["schema_version"] == "0002_reference_catalog"
         assert metadata["minimum_app_version"] == "0.1.0"
     engine.dispose()
 
