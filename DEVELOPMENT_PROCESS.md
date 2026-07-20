@@ -55,4 +55,3 @@ uv run pytest
 ## Decisões e exceções
 
 Decisões arquiteturais novas entram em `docs/decisions/` antes de criarem dependência persistente. Exceções temporárias precisam de responsável, motivo, impacto e condição de remoção; não se resolve ambiguidade das specs inventando comportamento.
-

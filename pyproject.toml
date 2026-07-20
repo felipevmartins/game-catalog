@@ -47,4 +47,3 @@ select = ["E", "F", "I", "B", "UP", "RUF"]
 python_version = "3.12"
 strict = true
 packages = ["game_catalog"]
-
