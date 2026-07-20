@@ -1,5 +1,16 @@
 """Persisted model mappings."""
 
+from game_catalog.persistence.models.facts import (
+    AvailabilityOffer,
+    FranchiseOwnership,
+    GameCompany,
+    GameLength,
+    GamePlatformLockReason,
+    GamePrimaryScore,
+    GameScore,
+    PlatformLockAssessment,
+    PlatformLockReason,
+)
 from game_catalog.persistence.models.identity import (
     Game,
     GameAlias,
@@ -34,6 +45,7 @@ from game_catalog.persistence.models.sources import (
 )
 
 __all__ = [
+    "AvailabilityOffer",
     "Backup",
     "CatalogAssertion",
     "Company",
@@ -44,15 +56,23 @@ __all__ = [
     "Franchise",
     "FranchiseEcosystem",
     "FranchiseExternalId",
+    "FranchiseOwnership",
     "Game",
     "GameAlias",
+    "GameCompany",
     "GameContent",
     "GameEdition",
     "GameExternalId",
+    "GameLength",
+    "GamePlatformLockReason",
+    "GamePrimaryScore",
     "GameRelation",
+    "GameScore",
     "Manufacturer",
     "Platform",
     "PlatformExternalId",
+    "PlatformLockAssessment",
+    "PlatformLockReason",
     "Product",
     "ProductExternalId",
     "RecordSourceLink",
