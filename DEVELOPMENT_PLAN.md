@@ -92,4 +92,5 @@ prova vertical + revisão de termos → coletores externos
 - Etapa atual: **3 — Schema e migrations**.
 - Migration `0001_foundation`: **implementada e testada** em SQLite real.
 - Migration `0002_reference_catalog`: **implementada e testada** em SQLite real.
-- Próxima ação: implementar `0003_game_identity` e seus testes de identidade estrutural.
+- Migration `0003_game_identity`: **implementada e testada** em SQLite real.
+- Próxima ação: implementar `0004_sources_and_external_ids` e proveniência.
