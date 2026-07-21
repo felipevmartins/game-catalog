@@ -2,6 +2,14 @@
 
 Este plano transforma as fases vinculantes da especificação v1.3 em gates incrementais. Uma etapa só começa depois que os critérios da anterior forem verificados.
 
+## Descoberta por plataformas legadas
+
+- A esteira `legacy` cobre todos os consoles domésticos, portáteis e híbridos cadastrados de
+  Nintendo, PlayStation e Xbox.
+- A descoberta compara todas as plataformas declaradas no Wikidata e separa ports para PC,
+  lançamentos em outros consoles, títulos recentes e candidatos possivelmente presos.
+- Uma única fonte nunca confirma ausência: candidatos geram assessment `dirty` e revisão humana.
+
 ## Regras de execução
 
 - SQLite é a fonte da verdade; exportações são snapshots derivados.

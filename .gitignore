@@ -19,3 +19,5 @@ build/
 *.sqlite3
 .env
 data/raw/wikidata/*.json
+data/raw/wikidata-legacy/*.json
+data/raw/wikidata-legacy/*.json

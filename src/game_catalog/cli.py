@@ -14,8 +14,10 @@ from sqlalchemy.orm import Session, sessionmaker
 from game_catalog.application.collection import CollectionService
 from game_catalog.application.franchise_import import FranchiseImportService
 from game_catalog.application.identity import IdentityService
+from game_catalog.application.legacy_import import LegacyImportService
 from game_catalog.application.platform_catalog import PlatformCatalogService
 from game_catalog.application.unit_of_work import UnitOfWork
+from game_catalog.integrations.legacy import LegacyWikidataCollector, normalize_legacy
 from game_catalog.integrations.wikidata import WikidataCollector, normalize_raw_directory
 from game_catalog.persistence.database import create_database_engine, create_session_factory
 
@@ -26,12 +28,14 @@ release_app = typer.Typer(no_args_is_help=True)
 collection_app = typer.Typer(no_args_is_help=True)
 import_app = typer.Typer(no_args_is_help=True)
 platform_app = typer.Typer(no_args_is_help=True)
+legacy_app = typer.Typer(no_args_is_help=True)
 app.add_typer(db_app, name="db")
 app.add_typer(game_app, name="game")
 app.add_typer(release_app, name="release")
 app.add_typer(collection_app, name="collection")
 app.add_typer(import_app, name="import")
 app.add_typer(platform_app, name="platform")
+app.add_typer(legacy_app, name="legacy")
 
 
 def database_url(path: Path) -> str:
@@ -267,3 +271,63 @@ def list_platforms(context: typer.Context) -> None:
         typer.echo(
             f"{record.id}\t{record.name}\t{record.platform_type}\t{record.release_year or ''}"
         )
+
+
+@legacy_app.command("discover")
+def discover_legacy_games(
+    policy: Annotated[Path, typer.Option("--policy")] = Path(
+        "data/import/legacy_platform_policy.json"
+    ),
+    platforms: Annotated[Path, typer.Option("--platforms")] = Path(
+        "data/import/platform_catalog.json"
+    ),
+    raw_directory: Annotated[Path, typer.Option("--raw-dir")] = Path("data/raw/wikidata-legacy"),
+) -> None:
+    """Discover games and all known platforms for every curated console."""
+    result = LegacyWikidataCollector().collect(policy, platforms, raw_directory)
+    typer.echo(json.dumps(result, ensure_ascii=False, sort_keys=True))
+
+
+@legacy_app.command("normalize")
+def normalize_legacy_games(
+    raw_directory: Annotated[Path, typer.Option("--raw-dir")] = Path("data/raw/wikidata-legacy"),
+    policy: Annotated[Path, typer.Option("--policy")] = Path(
+        "data/import/legacy_platform_policy.json"
+    ),
+    output: Annotated[Path, typer.Option("--output")] = Path("data/normalized/legacy-games.jsonl"),
+    report: Annotated[Path, typer.Option("--report")] = Path("data/reports/stranded-games.json"),
+) -> None:
+    """Classify platform discoveries into conservative legacy candidates."""
+    typer.echo(json.dumps(normalize_legacy(raw_directory, policy, output, report), sort_keys=True))
+
+
+def run_legacy_apply(context: typer.Context, input_file: Path, *, dry_run: bool) -> None:
+    path = selected_database(context)
+    if not path.exists():
+        raise typer.BadParameter("database does not exist; run 'db init' first")
+    result = LegacyImportService(lambda: UnitOfWork(sessions_for(path))).apply(
+        input_file, dry_run=dry_run
+    )
+    typer.echo(json.dumps(result.to_dict(), ensure_ascii=False, sort_keys=True))
+
+
+@legacy_app.command("dry-run")
+def dry_run_legacy(
+    context: typer.Context,
+    input_file: Annotated[Path, typer.Option("--input")] = Path(
+        "data/normalized/legacy-games.jsonl"
+    ),
+) -> None:
+    """Validate legacy candidates without persisting assessments."""
+    run_legacy_apply(context, input_file, dry_run=True)
+
+
+@legacy_app.command("apply")
+def apply_legacy(
+    context: typer.Context,
+    input_file: Annotated[Path, typer.Option("--input")] = Path(
+        "data/normalized/legacy-games.jsonl"
+    ),
+) -> None:
+    """Create dirty assessments and reviews for known legacy candidates."""
+    run_legacy_apply(context, input_file, dry_run=False)

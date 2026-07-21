@@ -1,0 +1,9 @@
+{
+  "counts": {
+    "candidates": 9264,
+    "ported": 13069,
+    "too_recent": 3747,
+    "unresolved_platforms": 0
+  },
+  "unresolved_platforms": []
+}

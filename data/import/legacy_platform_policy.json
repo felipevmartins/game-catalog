@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "rule_version": "legacy-platform-lock-v1",
+  "manufacturers": ["Sony Interactive Entertainment", "Microsoft", "Nintendo"],
+  "included_platform_types": ["home_console", "portable_console", "hybrid_console"],
+  "excluded_platforms": ["PocketStation"],
+  "platform_aliases": {
+    "PlayStation": ["PlayStation (console)"],
+    "Xbox": ["Xbox (console)"],
+    "Nintendo Entertainment System": ["Nintendo Entertainment System", "Famicom"],
+    "Super Nintendo Entertainment System": ["Super Nintendo Entertainment System", "Super Famicom"],
+    "Nintendo GameCube": ["GameCube"],
+    "Xbox Series X|S": ["Xbox Series X and Series S"],
+    "Game & Watch": ["Game & Watch series"]
+  },
+  "pc_platform_qids": ["Q1406", "Q388", "Q14116", "Q170434"],
+  "minimum_release_age_years": 5,
+  "source": "wikidata"
+}
