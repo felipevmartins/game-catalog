@@ -8,6 +8,14 @@
       "source_url": "https://www.wikidata.org/wiki/Q32008364",
       "review_status": "approved",
       "review_reason": "Wikidata item is a video game but does not expose the expected series relation used by automatic discovery."
+    },
+    {
+      "wikidata_id": "Q11682149",
+      "canonical_title": "God of War: Origins Collection",
+      "franchise_key": "god-of-war",
+      "source_url": "https://www.wikidata.org/wiki/Q11682149",
+      "review_status": "approved",
+      "review_reason": "Wikidata item is a video game but does not expose the expected series relation used by automatic discovery."
     }
   ]
 }
