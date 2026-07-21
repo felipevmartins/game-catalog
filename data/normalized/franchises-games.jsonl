@@ -105,6 +105,13 @@
 {"canonical_title": "Fire Emblem: Three Houses", "franchise_key": "fire-emblem", "normalized_title": "fire emblem: three houses", "record_type": "game", "source": "wikidata", "wikidata_id": "Q54960673"}
 {"canonical_title": "Tokyo Mirage Sessions ♯FE", "franchise_key": "fire-emblem", "normalized_title": "tokyo mirage sessions fe", "record_type": "game", "source": "wikidata", "wikidata_id": "Q7497192"}
 {"canonical_title": "Tokyo Mirage Sessions ♯FE Encore", "franchise_key": "fire-emblem", "normalized_title": "tokyo mirage sessions fe encore", "record_type": "game", "source": "wikidata", "wikidata_id": "Q96005021"}
+{"aliases": [], "canonical_name": "Forza Horizon", "ecosystem": "xbox", "inclusion_status": "approved", "key": "forza-horizon", "record_type": "franchise", "resolution_status": "resolved", "source": "wikidata", "wikidata_id": "Q107611775"}
+{"canonical_title": "Forza Horizon", "franchise_key": "forza-horizon", "normalized_title": "forza horizon", "record_type": "game", "source": "wikidata", "wikidata_id": "Q83843"}
+{"canonical_title": "Forza Horizon 2", "franchise_key": "forza-horizon", "normalized_title": "forza horizon 2", "record_type": "game", "source": "wikidata", "wikidata_id": "Q17156024"}
+{"canonical_title": "Forza Horizon 2 Presents Fast & Furious", "franchise_key": "forza-horizon", "normalized_title": "forza horizon 2 presents fast & furious", "record_type": "game", "source": "wikidata", "wikidata_id": "Q21190157"}
+{"canonical_title": "Forza Horizon 3", "franchise_key": "forza-horizon", "normalized_title": "forza horizon 3", "record_type": "game", "source": "wikidata", "wikidata_id": "Q24646839"}
+{"canonical_title": "Forza Horizon 4", "franchise_key": "forza-horizon", "normalized_title": "forza horizon 4", "record_type": "game", "source": "wikidata", "wikidata_id": "Q54893555"}
+{"canonical_title": "Forza Horizon 5", "franchise_key": "forza-horizon", "normalized_title": "forza horizon 5", "record_type": "game", "source": "wikidata", "wikidata_id": "Q107214683"}
 {"aliases": [], "canonical_name": "Forza Motorsport", "ecosystem": "xbox", "inclusion_status": "approved", "key": "forza-motorsport", "record_type": "franchise", "resolution_status": "resolved", "source": "wikidata", "wikidata_id": "Q107611764"}
 {"canonical_title": "Forza Motorsport", "franchise_key": "forza-motorsport", "normalized_title": "forza motorsport", "record_type": "game", "source": "wikidata", "wikidata_id": "Q107611729"}
 {"canonical_title": "Forza Motorsport", "franchise_key": "forza-motorsport", "normalized_title": "forza motorsport", "record_type": "game", "source": "wikidata", "wikidata_id": "Q1439326"}
@@ -240,6 +247,15 @@
 {"canonical_title": "Kirby: Squeak Squad", "franchise_key": "kirby", "normalized_title": "kirby: squeak squad", "record_type": "game", "source": "wikidata", "wikidata_id": "Q959102"}
 {"canonical_title": "Kirby: Triple Deluxe", "franchise_key": "kirby", "normalized_title": "kirby: triple deluxe", "record_type": "game", "source": "wikidata", "wikidata_id": "Q3197316"}
 {"canonical_title": "Kirby: Triple Deluxe Match-Up", "franchise_key": "kirby", "normalized_title": "kirby: triple deluxe match-up", "record_type": "game", "source": "wikidata", "wikidata_id": "Q127412990"}
+{"aliases": ["Little Big Planet"], "canonical_name": "LittleBigPlanet", "ecosystem": "playstation", "inclusion_status": "approved", "key": "littlebigplanet", "record_type": "franchise", "resolution_status": "resolved", "source": "wikidata", "wikidata_id": "Q31953"}
+{"canonical_title": "LittleBigPlanet", "franchise_key": "littlebigplanet", "normalized_title": "littlebigplanet", "record_type": "game", "source": "wikidata", "wikidata_id": "Q6579517"}
+{"canonical_title": "LittleBigPlanet", "franchise_key": "littlebigplanet", "normalized_title": "littlebigplanet", "record_type": "game", "source": "wikidata", "wikidata_id": "Q282548"}
+{"canonical_title": "LittleBigPlanet 2", "franchise_key": "littlebigplanet", "normalized_title": "littlebigplanet 2", "record_type": "game", "source": "wikidata", "wikidata_id": "Q1988886"}
+{"canonical_title": "LittleBigPlanet 3", "franchise_key": "littlebigplanet", "normalized_title": "littlebigplanet 3", "record_type": "game", "source": "wikidata", "wikidata_id": "Q17194812"}
+{"canonical_title": "LittleBigPlanet Karting", "franchise_key": "littlebigplanet", "normalized_title": "littlebigplanet karting", "record_type": "game", "source": "wikidata", "wikidata_id": "Q3256645"}
+{"canonical_title": "LittleBigPlanet PS Vita", "franchise_key": "littlebigplanet", "normalized_title": "littlebigplanet ps vita", "record_type": "game", "source": "wikidata", "wikidata_id": "Q685649"}
+{"canonical_title": "Sackboy's Prehistoric Moves", "franchise_key": "littlebigplanet", "normalized_title": "sackboy's prehistoric moves", "record_type": "game", "source": "wikidata", "wikidata_id": "Q63225771"}
+{"canonical_title": "Sackboy: A Big Adventure", "franchise_key": "littlebigplanet", "normalized_title": "sackboy: a big adventure", "record_type": "game", "source": "wikidata", "wikidata_id": "Q96215907"}
 {"aliases": [], "canonical_name": "Luigi's Mansion", "ecosystem": "nintendo", "inclusion_status": "approved", "key": "luigis-mansion", "record_type": "franchise", "resolution_status": "resolved", "source": "wikidata", "wikidata_id": "Q60172609"}
 {"canonical_title": "Luigi's Mansion", "franchise_key": "luigis-mansion", "normalized_title": "luigi's mansion", "record_type": "game", "source": "wikidata", "wikidata_id": "Q111597000"}
 {"canonical_title": "Luigi's Mansion", "franchise_key": "luigis-mansion", "normalized_title": "luigi's mansion", "record_type": "game", "source": "wikidata", "wikidata_id": "Q984029"}
@@ -409,7 +425,7 @@
 {"canonical_title": "Super Smash Bros. for Nintendo 3DS", "franchise_key": "super-smash-bros", "normalized_title": "super smash bros. for nintendo 3ds", "record_type": "game", "source": "wikidata", "wikidata_id": "Q67980165"}
 {"canonical_title": "Super Smash Bros. for Nintendo 3DS and Wii U", "franchise_key": "super-smash-bros", "normalized_title": "super smash bros. for nintendo 3ds and wii u", "record_type": "game", "source": "wikidata", "wikidata_id": "Q1195150"}
 {"canonical_title": "Super Smash Bros. for Wii U", "franchise_key": "super-smash-bros", "normalized_title": "super smash bros. for wii u", "record_type": "game", "source": "wikidata", "wikidata_id": "Q41359742"}
-{"aliases": [], "canonical_name": "The Last of Us", "ecosystem": "playstation", "inclusion_status": "review_required", "key": "the-last-of-us", "record_type": "franchise", "resolution_status": "review_required", "source": "wikidata", "wikidata_id": "Q28062624"}
+{"aliases": [], "canonical_name": "The Last of Us", "ecosystem": "playstation", "inclusion_status": "review_required", "key": "the-last-of-us", "record_type": "franchise", "resolution_status": "resolved", "source": "wikidata", "wikidata_id": "Q28062624"}
 {"aliases": [], "canonical_name": "The Legend of Zelda", "ecosystem": "nintendo", "inclusion_status": "approved", "key": "the-legend-of-zelda", "record_type": "franchise", "resolution_status": "resolved", "source": "wikidata", "wikidata_id": "Q12393"}
 {"canonical_title": "BS The Legend of Zelda", "franchise_key": "the-legend-of-zelda", "normalized_title": "bs the legend of zelda", "record_type": "game", "source": "wikidata", "wikidata_id": "Q63225346"}
 {"canonical_title": "BS The Legend of Zelda: Ancient Stone Tablets", "franchise_key": "the-legend-of-zelda", "normalized_title": "bs the legend of zelda: ancient stone tablets", "record_type": "game", "source": "wikidata", "wikidata_id": "Q2708122"}
@@ -470,6 +486,18 @@
 {"canonical_title": "Twisted Metal: Black", "franchise_key": "twisted-metal", "normalized_title": "twisted metal: black", "record_type": "game", "source": "wikidata", "wikidata_id": "Q2978434"}
 {"canonical_title": "Twisted Metal: Head-On", "franchise_key": "twisted-metal", "normalized_title": "twisted metal: head-on", "record_type": "game", "source": "wikidata", "wikidata_id": "Q652481"}
 {"canonical_title": "Twisted Metal: Small Brawl", "franchise_key": "twisted-metal", "normalized_title": "twisted metal: small brawl", "record_type": "game", "source": "wikidata", "wikidata_id": "Q2458858"}
+{"aliases": [], "canonical_name": "Uncharted", "ecosystem": "playstation", "inclusion_status": "approved", "key": "uncharted", "record_type": "franchise", "resolution_status": "resolved", "source": "wikidata", "wikidata_id": "Q1064135"}
+{"canonical_title": "Uncharted 3: Drake's Deception", "franchise_key": "uncharted", "normalized_title": "uncharted 3: drake's deception", "record_type": "game", "source": "wikidata", "wikidata_id": "Q17138"}
+{"canonical_title": "Uncharted 4: A Thief's End", "franchise_key": "uncharted", "normalized_title": "uncharted 4: a thief's end", "record_type": "game", "source": "wikidata", "wikidata_id": "Q16681843"}
+{"canonical_title": "Uncharted 4: A Thief's End Remastered", "franchise_key": "uncharted", "normalized_title": "uncharted 4: a thief's end remastered", "record_type": "game", "source": "wikidata", "wikidata_id": "Q108479466"}
+{"canonical_title": "Uncharted: Drake's Fortune", "franchise_key": "uncharted", "normalized_title": "uncharted: drake's fortune", "record_type": "game", "source": "wikidata", "wikidata_id": "Q17150"}
+{"canonical_title": "Uncharted: Fight for Fortune", "franchise_key": "uncharted", "normalized_title": "uncharted: fight for fortune", "record_type": "game", "source": "wikidata", "wikidata_id": "Q648573"}
+{"canonical_title": "Uncharted: Fortune Hunter", "franchise_key": "uncharted", "normalized_title": "uncharted: fortune hunter", "record_type": "game", "source": "wikidata", "wikidata_id": "Q28678072"}
+{"canonical_title": "Uncharted: Golden Abyss", "franchise_key": "uncharted", "normalized_title": "uncharted: golden abyss", "record_type": "game", "source": "wikidata", "wikidata_id": "Q1156718"}
+{"canonical_title": "Uncharted: Legacy of Thieves Collection", "franchise_key": "uncharted", "normalized_title": "uncharted: legacy of thieves collection", "record_type": "game", "source": "wikidata", "wikidata_id": "Q108482649"}
+{"canonical_title": "Uncharted: The Lost Legacy", "franchise_key": "uncharted", "normalized_title": "uncharted: the lost legacy", "record_type": "game", "source": "wikidata", "wikidata_id": "Q28088198"}
+{"canonical_title": "Uncharted: The Lost Legacy Remastered", "franchise_key": "uncharted", "normalized_title": "uncharted: the lost legacy remastered", "record_type": "game", "source": "wikidata", "wikidata_id": "Q108482681"}
+{"canonical_title": "Uncharted: The Nathan Drake Collection", "franchise_key": "uncharted", "normalized_title": "uncharted: the nathan drake collection", "record_type": "game", "source": "wikidata", "wikidata_id": "Q20059613"}
 {"aliases": [], "canonical_name": "Viva Piñata", "ecosystem": "xbox", "inclusion_status": "approved", "key": "viva-pinata", "record_type": "franchise", "resolution_status": "resolved", "source": "wikidata", "wikidata_id": "Q135087819"}
 {"canonical_title": "Viva Piñata", "franchise_key": "viva-pinata", "normalized_title": "viva pinata", "record_type": "game", "source": "wikidata", "wikidata_id": "Q913218"}
 {"canonical_title": "Viva Piñata: Party Animals", "franchise_key": "viva-pinata", "normalized_title": "viva pinata: party animals", "record_type": "game", "source": "wikidata", "wikidata_id": "Q683398"}
@@ -504,3 +532,9 @@
 {"aliases": [], "canonical_name": "Yoshi", "ecosystem": "nintendo", "inclusion_status": "approved", "key": "yoshi", "record_type": "franchise", "resolution_status": "resolved", "source": "wikidata", "wikidata_id": "Q214174"}
 {"canonical_title": "Fable Anniversary", "franchise_key": "fable", "normalized_title": "fable anniversary", "record_type": "game", "source": "wikidata", "wikidata_id": "Q32008364"}
 {"canonical_title": "God of War: Origins Collection", "franchise_key": "god-of-war", "normalized_title": "god of war: origins collection", "record_type": "game", "source": "wikidata", "wikidata_id": "Q11682149"}
+{"canonical_title": "The Last of Us", "franchise_key": "the-last-of-us", "normalized_title": "the last of us", "record_type": "game", "source": "wikidata", "wikidata_id": "Q1986744"}
+{"canonical_title": "The Last of Us: Left Behind", "franchise_key": "the-last-of-us", "normalized_title": "the last of us: left behind", "record_type": "game", "source": "wikidata", "wikidata_id": "Q19880755"}
+{"canonical_title": "The Last of Us Remastered", "franchise_key": "the-last-of-us", "normalized_title": "the last of us remastered", "record_type": "game", "source": "wikidata", "wikidata_id": "Q19057897"}
+{"canonical_title": "The Last of Us Part II", "franchise_key": "the-last-of-us", "normalized_title": "the last of us part ii", "record_type": "game", "source": "wikidata", "wikidata_id": "Q27950674"}
+{"canonical_title": "The Last of Us Part I", "franchise_key": "the-last-of-us", "normalized_title": "the last of us part i", "record_type": "game", "source": "wikidata", "wikidata_id": "Q113377532"}
+{"canonical_title": "The Last of Us Part II Remastered", "franchise_key": "the-last-of-us", "normalized_title": "the last of us part ii remastered", "record_type": "game", "source": "wikidata", "wikidata_id": "Q123473426"}

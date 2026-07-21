@@ -1,9 +1,9 @@
 {
   "counts": {
-    "franchises": 47,
-    "games": 459,
+    "franchises": 50,
+    "games": 490,
     "unresolved": 1,
-    "review_required": 4
+    "review_required": 3
   },
   "pending_review": [
     {
@@ -29,12 +29,6 @@
       "canonical_name": "Sea of Thieves",
       "resolution_status": "review_required",
       "wikidata_id": null
-    },
-    {
-      "key": "the-last-of-us",
-      "canonical_name": "The Last of Us",
-      "resolution_status": "review_required",
-      "wikidata_id": "Q28062624"
     }
   ]
 }

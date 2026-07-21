@@ -16,6 +16,54 @@
       "source_url": "https://www.wikidata.org/wiki/Q11682149",
       "review_status": "approved",
       "review_reason": "Wikidata item is a video game but does not expose the expected series relation used by automatic discovery."
+    },
+    {
+      "wikidata_id": "Q1986744",
+      "canonical_title": "The Last of Us",
+      "franchise_key": "the-last-of-us",
+      "source_url": "https://www.wikidata.org/wiki/Q1986744",
+      "review_status": "approved",
+      "review_reason": "Wikidata does not expose the expected series relation used by automatic discovery."
+    },
+    {
+      "wikidata_id": "Q19880755",
+      "canonical_title": "The Last of Us: Left Behind",
+      "franchise_key": "the-last-of-us",
+      "source_url": "https://www.wikidata.org/wiki/Q19880755",
+      "review_status": "approved",
+      "review_reason": "Wikidata does not expose the expected series relation used by automatic discovery."
+    },
+    {
+      "wikidata_id": "Q19057897",
+      "canonical_title": "The Last of Us Remastered",
+      "franchise_key": "the-last-of-us",
+      "source_url": "https://www.wikidata.org/wiki/Q19057897",
+      "review_status": "approved",
+      "review_reason": "Wikidata does not expose the expected series relation used by automatic discovery."
+    },
+    {
+      "wikidata_id": "Q27950674",
+      "canonical_title": "The Last of Us Part II",
+      "franchise_key": "the-last-of-us",
+      "source_url": "https://www.wikidata.org/wiki/Q27950674",
+      "review_status": "approved",
+      "review_reason": "Wikidata does not expose the expected series relation used by automatic discovery."
+    },
+    {
+      "wikidata_id": "Q113377532",
+      "canonical_title": "The Last of Us Part I",
+      "franchise_key": "the-last-of-us",
+      "source_url": "https://www.wikidata.org/wiki/Q113377532",
+      "review_status": "approved",
+      "review_reason": "Wikidata does not expose the expected series relation used by automatic discovery."
+    },
+    {
+      "wikidata_id": "Q123473426",
+      "canonical_title": "The Last of Us Part II Remastered",
+      "franchise_key": "the-last-of-us",
+      "source_url": "https://www.wikidata.org/wiki/Q123473426",
+      "review_status": "approved",
+      "review_reason": "Wikidata does not expose the expected series relation used by automatic discovery."
     }
   ]
 }

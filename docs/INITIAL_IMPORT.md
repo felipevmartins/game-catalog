@@ -27,11 +27,11 @@ same normalized snapshot and review conflict are deduplicated.
 
 ## Current snapshot
 
-- 47 editorial franchises across PlayStation, Xbox and Nintendo.
-- 42 franchise identities resolved automatically.
-- 459 Games normalized and imported with an original Edition, including the curated
-  `Fable Anniversary` and `God of War: Origins Collection` Wikidata exceptions.
-- 5 franchise identities pending human review.
+- 50 editorial franchises across PlayStation, Xbox and Nintendo.
+- 46 franchise identities resolved automatically.
+- 490 Games normalized and imported with an original Edition, including curated
+  exceptions for items missing the expected Wikidata series relation.
+- 4 franchise identities pending human review.
 - raw QID labels, missing labels and duplicate external IDs are excluded or reported.
 
 Pending review does not fail the import. The editorial Franchise remains present, but no Wikidata

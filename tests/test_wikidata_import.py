@@ -17,9 +17,9 @@ from game_catalog.persistence.database import create_database_engine, create_ses
 
 def test_editorial_catalog_has_expected_scope() -> None:
     seeds = load_franchise_catalog(Path("data/import/franchise_catalog.json"))
-    assert len(seeds) == 47
+    assert len(seeds) == 50
     assert {seed.ecosystem for seed in seeds} == {"playstation", "xbox", "nintendo"}
-    assert sum(seed.inclusion_status == "review_required" for seed in seeds) == 4
+    assert sum(seed.inclusion_status == "review_required" for seed in seeds) == 3
     earthbound = next(seed for seed in seeds if seed.key == "earthbound")
     assert "Mother" in earthbound.aliases
 

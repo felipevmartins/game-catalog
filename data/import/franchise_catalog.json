@@ -18,7 +18,7 @@
     {"key": "marvels-spider-man", "canonical_name": "Marvel's Spider-Man", "ecosystem": "playstation", "inclusion_status": "review_required"},
     {"key": "fable", "canonical_name": "Fable", "ecosystem": "xbox"},
     {"key": "mario-kart", "canonical_name": "Mario Kart", "ecosystem": "nintendo"},
-    {"key": "the-last-of-us", "canonical_name": "The Last of Us", "ecosystem": "playstation", "inclusion_status": "review_required"},
+    {"key": "the-last-of-us", "canonical_name": "The Last of Us", "ecosystem": "playstation"},
     {"key": "killer-instinct", "canonical_name": "Killer Instinct", "ecosystem": "xbox"},
     {"key": "super-smash-bros", "canonical_name": "Super Smash Bros.", "ecosystem": "nintendo"},
     {"key": "ratchet-and-clank", "canonical_name": "Ratchet & Clank", "ecosystem": "playstation"},
@@ -52,6 +52,9 @@
     {"key": "twisted-metal", "canonical_name": "Twisted Metal", "ecosystem": "playstation"},
     {"key": "f-zero", "canonical_name": "F-Zero", "ecosystem": "nintendo"},
     {"key": "earthbound", "canonical_name": "EarthBound", "aliases": ["Mother", "Mother series"], "ecosystem": "nintendo"},
-    {"key": "golden-sun", "canonical_name": "Golden Sun", "ecosystem": "nintendo"}
+    {"key": "golden-sun", "canonical_name": "Golden Sun", "ecosystem": "nintendo"},
+    {"key": "uncharted", "canonical_name": "Uncharted", "ecosystem": "playstation"},
+    {"key": "littlebigplanet", "canonical_name": "LittleBigPlanet", "aliases": ["Little Big Planet"], "ecosystem": "playstation"},
+    {"key": "forza-horizon", "canonical_name": "Forza Horizon", "ecosystem": "xbox"}
   ]
 }
