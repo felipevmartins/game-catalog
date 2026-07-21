@@ -102,4 +102,6 @@ prova vertical + revisão de termos → coletores externos
 - Repositórios iniciais, Unit of Work e criação transacional de Game/Edition: **implementados e testados**.
 - CLI `db init`, `game add` e `game list`: **implementada e testada de ponta a ponta**.
 - Fluxo vertical Game → Edition → Release → coleção pessoal pela CLI: **implementado e testado**.
-- Próxima ação: melhorar consultas/apresentação e adicionar importação local idempotente.
+- Importação inicial de franquias/jogos via Wikidata, com raw, normalização, dry-run, proveniência,
+  revisão e aplicação idempotente: **implementada, executada e testada**.
+- Próxima ação: revisar as cinco identidades pendentes e enriquecer Releases/plataformas.

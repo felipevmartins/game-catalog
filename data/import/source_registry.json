@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "code": "wikidata",
+      "name": "Wikidata",
+      "source_type": "collaborative",
+      "integration_type": "sparql",
+      "base_url": "https://query.wikidata.org/sparql",
+      "priority": 70,
+      "default_confidence": "medium",
+      "license_name": "CC0-1.0",
+      "redistribution_policy": "allowed",
+      "terms_url": "https://www.wikidata.org/wiki/Wikidata:Licensing",
+      "terms_reviewed_at": "2026-07-20T00:00:00.000Z",
+      "contract_version": "wdqs-2026-07",
+      "enabled": true
+    }
+  ]
+}

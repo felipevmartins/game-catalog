@@ -1,0 +1,40 @@
+{
+  "counts": {
+    "franchises": 47,
+    "games": 457,
+    "unresolved": 1,
+    "review_required": 4
+  },
+  "pending_review": [
+    {
+      "key": "demons-souls",
+      "canonical_name": "Demon's Souls",
+      "resolution_status": "unresolved",
+      "wikidata_id": null
+    },
+    {
+      "key": "ghost-of-tsushima",
+      "canonical_name": "Ghost of Tsushima",
+      "resolution_status": "review_required",
+      "wikidata_id": "Q124935200"
+    },
+    {
+      "key": "marvels-spider-man",
+      "canonical_name": "Marvel's Spider-Man",
+      "resolution_status": "review_required",
+      "wikidata_id": "Q112222019"
+    },
+    {
+      "key": "sea-of-thieves",
+      "canonical_name": "Sea of Thieves",
+      "resolution_status": "review_required",
+      "wikidata_id": null
+    },
+    {
+      "key": "the-last-of-us",
+      "canonical_name": "The Last of Us",
+      "resolution_status": "review_required",
+      "wikidata_id": "Q28062624"
+    }
+  ]
+}

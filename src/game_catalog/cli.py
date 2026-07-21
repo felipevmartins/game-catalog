@@ -1,5 +1,8 @@
 """Command-line interface for the local catalog."""
 
+import json
+import sys
+from io import TextIOWrapper
 from pathlib import Path
 from typing import Annotated
 
@@ -9,8 +12,10 @@ from alembic.config import Config
 from sqlalchemy.orm import Session, sessionmaker
 
 from game_catalog.application.collection import CollectionService
+from game_catalog.application.franchise_import import FranchiseImportService
 from game_catalog.application.identity import IdentityService
 from game_catalog.application.unit_of_work import UnitOfWork
+from game_catalog.integrations.wikidata import WikidataCollector, normalize_raw_directory
 from game_catalog.persistence.database import create_database_engine, create_session_factory
 
 app = typer.Typer(no_args_is_help=True)
@@ -18,10 +23,12 @@ db_app = typer.Typer(no_args_is_help=True)
 game_app = typer.Typer(no_args_is_help=True)
 release_app = typer.Typer(no_args_is_help=True)
 collection_app = typer.Typer(no_args_is_help=True)
+import_app = typer.Typer(no_args_is_help=True)
 app.add_typer(db_app, name="db")
 app.add_typer(game_app, name="game")
 app.add_typer(release_app, name="release")
 app.add_typer(collection_app, name="collection")
+app.add_typer(import_app, name="import")
 
 
 def database_url(path: Path) -> str:
@@ -38,6 +45,9 @@ def main(
     database: Annotated[Path, typer.Option("--database", "-d")] = Path("game_catalog.db"),
 ) -> None:
     """Manage the local game catalog."""
+    for stream in (sys.stdout, sys.stderr):
+        if isinstance(stream, TextIOWrapper):
+            stream.reconfigure(encoding="utf-8", errors="replace")
     context.obj = database
 
 
@@ -82,7 +92,10 @@ def add_game(context: typer.Context, title: str = typer.Argument(...)) -> None:
 
 
 @game_app.command("list")
-def list_games(context: typer.Context) -> None:
+def list_games(
+    context: typer.Context,
+    limit: Annotated[int, typer.Option("--limit", min=1)] = 50,
+) -> None:
     """List active Games in canonical-title order."""
     path = selected_database(context)
     if not path.exists():
@@ -93,7 +106,7 @@ def list_games(context: typer.Context) -> None:
     if not games:
         typer.echo("No games found.")
         return
-    for game in games:
+    for game in games[:limit]:
         typer.echo(f"{game.id}\t{game.canonical_title}")
 
 
@@ -146,3 +159,78 @@ def list_collection(context: typer.Context) -> None:
         return
     for item in items:
         typer.echo(f"{item.id}\tgame={item.game_id}\trelease={item.release_id}")
+
+
+@import_app.command("discover")
+def discover_franchises(
+    catalog: Annotated[Path, typer.Option("--catalog")] = Path(
+        "data/import/franchise_catalog.json"
+    ),
+    raw_directory: Annotated[Path, typer.Option("--raw-dir")] = Path("data/raw/wikidata"),
+) -> None:
+    """Discover franchise identities and games through Wikidata."""
+    records = WikidataCollector().collect(catalog, raw_directory)
+    resolved = sum(item["franchise"]["resolution_status"] == "resolved" for item in records)
+    typer.echo(f"Collected {len(records)} franchises; {resolved} resolved automatically.")
+
+
+@import_app.command("normalize")
+def normalize_franchise_discovery(
+    raw_directory: Annotated[Path, typer.Option("--raw-dir")] = Path("data/raw/wikidata"),
+    output: Annotated[Path, typer.Option("--output")] = Path(
+        "data/normalized/franchises-games.jsonl"
+    ),
+    report: Annotated[Path, typer.Option("--report")] = Path("data/reports/initial-import.json"),
+) -> None:
+    """Convert raw discovery responses into deterministic JSON Lines."""
+    counts = normalize_raw_directory(raw_directory, output)
+    pending = []
+    for line in output.read_text(encoding="utf-8").splitlines():
+        record = json.loads(line)
+        if record["record_type"] == "franchise" and record["resolution_status"] != "resolved":
+            pending.append(
+                {
+                    "key": record["key"],
+                    "canonical_name": record["canonical_name"],
+                    "resolution_status": record["resolution_status"],
+                    "wikidata_id": record.get("wikidata_id"),
+                }
+            )
+    report.parent.mkdir(parents=True, exist_ok=True)
+    report.write_text(
+        json.dumps({"counts": counts, "pending_review": pending}, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    typer.echo(json.dumps(counts, ensure_ascii=False, sort_keys=True))
+
+
+def run_franchise_import(context: typer.Context, input_file: Path, *, dry_run: bool) -> None:
+    path = selected_database(context)
+    if not path.exists():
+        raise typer.BadParameter("database does not exist; run 'db init' first")
+    sessions = sessions_for(path)
+    service = FranchiseImportService(lambda: UnitOfWork(sessions))
+    result = service.apply(input_file, Path("data/import/source_registry.json"), dry_run=dry_run)
+    typer.echo(json.dumps(result.to_dict(), ensure_ascii=False, sort_keys=True))
+
+
+@import_app.command("dry-run")
+def dry_run_franchise_import(
+    context: typer.Context,
+    input_file: Annotated[Path, typer.Option("--input")] = Path(
+        "data/normalized/franchises-games.jsonl"
+    ),
+) -> None:
+    """Validate and simulate the normalized import without persisting changes."""
+    run_franchise_import(context, input_file, dry_run=True)
+
+
+@import_app.command("apply")
+def apply_franchise_import(
+    context: typer.Context,
+    input_file: Annotated[Path, typer.Option("--input")] = Path(
+        "data/normalized/franchises-games.jsonl"
+    ),
+) -> None:
+    """Apply the normalized import idempotently."""
+    run_franchise_import(context, input_file, dry_run=False)
