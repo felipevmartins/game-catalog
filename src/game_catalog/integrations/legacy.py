@@ -103,10 +103,12 @@ class LegacyWikidataCollector:
         sparql = f"""
 SELECT ?game ?gameLabel (MIN(?date) AS ?firstDate)
        (GROUP_CONCAT(DISTINCT STRAFTER(STR(?platform), '/entity/'); separator='|') AS ?platformQids)
+       (GROUP_CONCAT(DISTINCT STRAFTER(STR(?series), '/entity/'); separator='|') AS ?seriesQids)
        (MAX(?sportsFlag) AS ?isSports)
 WHERE {{
   ?game wdt:P31/wdt:P279* wd:Q7889; wdt:P400 wd:{platform_qid}; wdt:P400 ?platform.
   OPTIONAL {{ ?game wdt:P577 ?date. }}
+  OPTIONAL {{ ?game wdt:P179 ?series. }}
   BIND(IF(EXISTS {{ ?game wdt:P136/wdt:P279* wd:{sports_genre_qid}. }}, 1, 0) AS ?sportsFlag)
   SERVICE wikibase:label {{ bd:serviceParam wikibase:language "en,pt". }}
 }}
@@ -129,7 +131,7 @@ ORDER BY ?gameLabel
             if target.exists():
                 record = json.loads(target.read_text(encoding="utf-8"))
                 qid = record.get("platform", {}).get("wikidata_id")
-                if qid and record.get("schema_version") == 2:
+                if qid and record.get("schema_version") == 3:
                     counts["resolved"] += 1
                     counts["games"] += len(
                         record.get("games_response", {}).get("results", {}).get("bindings", [])
@@ -138,7 +140,7 @@ ORDER BY ?gameLabel
             qid, search = self.resolve_platform(platform)
             games = self.games(qid, sports_genre_qid) if qid else {"results": {"bindings": []}}
             record = {
-                "schema_version": 2,
+                "schema_version": 3,
                 "source": "wikidata",
                 "platform": {
                     "name": platform.name,
@@ -185,6 +187,9 @@ def normalize_legacy(
             date = binding.get("firstDate", {}).get("value")
             year = int(date[:4]) if date and date[:4].isdigit() else None
             sports = binding.get("isSports", {}).get("value") == "1"
+            series_qids = sorted(
+                set(binding.get("seriesQids", {}).get("value", "").split("|")) - {""}
+            )
             record = merged.setdefault(
                 qid,
                 {
@@ -197,6 +202,7 @@ def normalize_legacy(
                     "platform_qids": platform_qids,
                     "first_release_year": year,
                     "sports_game": sports,
+                    "series_qids": series_qids,
                     "source": "wikidata",
                 },
             )
@@ -211,12 +217,17 @@ def normalize_legacy(
         "candidates": 0,
         "ported": 0,
         "sports_excluded": 0,
+        "editorial_excluded": 0,
         "too_recent": 0,
         "unresolved_platforms": len(unresolved),
     }
     for record in merged.values():
         platforms = set(record["platform_qids"])
-        if record["sports_game"]:
+        excluded_series = set(policy.get("excluded_series_qids", []))
+        excluded_games = set(policy.get("excluded_game_qids", []))
+        if record["wikidata_id"] in excluded_games or set(record["series_qids"]) & excluded_series:
+            status = "excluded_editorial"
+        elif record["sports_game"]:
             status = "excluded_sports"
         elif record["first_release_year"] is not None and record["first_release_year"] > cutoff:
             status = "too_recent"
@@ -235,6 +246,8 @@ def normalize_legacy(
             if status == "too_recent"
             else "sports_excluded"
             if status == "excluded_sports"
+            else "editorial_excluded"
+            if status == "excluded_editorial"
             else "ported"
         ] += 1
         record["source_platforms"].sort()

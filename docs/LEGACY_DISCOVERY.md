@@ -30,6 +30,7 @@ Rule `legacy-platform-lock-v1` classifies a game as:
 - `too_recent` while the configured five-year observation window has not elapsed.
 - `excluded_sports` when Wikidata classifies the title as a sports video game (`Q868217`) or a
   subclass; these records do not enter second-source validation.
+- `excluded_editorial` for explicit game or series exclusions maintained in the policy file.
 
 The result is deliberately conservative. Absence of a Wikidata statement is not proof that a
 port does not exist. Applying the result only creates a `dirty` platform-lock assessment and a
@@ -76,6 +77,8 @@ backward-compatibility and official availability still require their own checks.
 Sports games are excluded by editorial preference from the legacy candidate queue. They remain in
 the normalized evidence with `excluded_sports`, allowing a specific title to be curated manually
 later without weakening the general rule.
+The current explicit exclusions include the Ace Combat series (`Q339962`) and the Game Boy title
+Baseball (`Q116687747`).
 
 ### RAWG
 

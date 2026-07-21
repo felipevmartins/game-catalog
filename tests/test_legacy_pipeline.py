@@ -66,6 +66,19 @@ def test_normalize_classifies_single_platform_conservatively(tmp_path: Path) -> 
                         "firstDate": {"value": "2010-01-01T00:00:00Z"},
                         "isSports": {"value": "1"},
                     },
+                    {
+                        "game": {"value": "http://www.wikidata.org/entity/Q5"},
+                        "gameLabel": {"value": "Ace Combat Example"},
+                        "platformQids": {"value": "Q8079"},
+                        "seriesQids": {"value": "Q339962"},
+                        "firstDate": {"value": "2010-01-01T00:00:00Z"},
+                    },
+                    {
+                        "game": {"value": "http://www.wikidata.org/entity/Q116687747"},
+                        "gameLabel": {"value": "Baseball"},
+                        "platformQids": {"value": "Q8079"},
+                        "firstDate": {"value": "1989-01-01T00:00:00Z"},
+                    },
                 ]
             }
         },
@@ -83,10 +96,13 @@ def test_normalize_classifies_single_platform_conservatively(tmp_path: Path) -> 
     assert counts["candidates"] == 1
     assert counts["ported"] == 2
     assert counts["sports_excluded"] == 1
+    assert counts["editorial_excluded"] == 2
     assert records["Q1"]["classification"] == "candidate_stranded"
     assert records["Q2"]["classification"] == "ported_to_pc"
     assert records["Q3"]["classification"] == "ported_to_other_platform"
     assert records["Q4"]["classification"] == "excluded_sports"
+    assert records["Q5"]["classification"] == "excluded_editorial"
+    assert records["Q116687747"]["classification"] == "excluded_editorial"
 
 
 def test_discovery_uses_windows_safe_cache_names(tmp_path: Path) -> None:

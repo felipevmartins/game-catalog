@@ -1,9 +1,10 @@
 {
   "counts": {
-    "candidates": 7928,
-    "ported": 11235,
+    "candidates": 7917,
+    "ported": 11234,
     "sports_excluded": 3437,
-    "too_recent": 3480,
+    "editorial_excluded": 17,
+    "too_recent": 3477,
     "unresolved_platforms": 0
   },
   "unresolved_platforms": []

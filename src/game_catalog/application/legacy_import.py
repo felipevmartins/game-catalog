@@ -77,7 +77,7 @@ class LegacyImportService:
                 session.add(reference)
                 session.flush()
             for record in records:
-                if record["classification"] == "excluded_sports":
+                if record["classification"] in {"excluded_sports", "excluded_editorial"}:
                     external = session.scalar(
                         select(GameExternalId).where(
                             GameExternalId.source_id == source.id,
@@ -94,9 +94,7 @@ class LegacyImportService:
                             assessment.locked = None
                             assessment.severity_level = None
                             assessment.state = "stale"
-                            assessment.justification = (
-                                "Excluded by editorial preference: sports video game."
-                            )
+                            assessment.justification = "Excluded by explicit editorial preference."
                             assessment.stale_since = now
                             result.assessments_staled += 1
                         reviews = session.scalars(
@@ -111,7 +109,7 @@ class LegacyImportService:
                             review.status = "cancelled"
                             review.reviewed_at = now
                             review.reviewed_by = "system"
-                            review.review_notes = "Excluded by sports-game editorial policy."
+                            review.review_notes = "Excluded by explicit editorial policy."
                             result.reviews_cancelled += 1
                     result.skipped_non_candidates += 1
                     continue
