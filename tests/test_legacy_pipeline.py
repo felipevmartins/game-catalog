@@ -276,3 +276,4 @@ def test_rawg_validation_uses_same_decision_states(tmp_path: Path) -> None:
     assert counts.confirmed_stranded == 1
     output = json.loads((tmp_path / "output.jsonl").read_text(encoding="utf-8"))
     assert output["validation"]["source"] == "rawg"
+    assert RawgValidator._platform_names({"platforms": None}, {}) == set()

@@ -160,7 +160,7 @@ class RawgValidator:
     @staticmethod
     def _platform_names(game: JsonObject, config: JsonObject) -> set[str]:
         names = set()
-        for wrapper in game.get("platforms", []):
+        for wrapper in game.get("platforms") or []:
             platform = wrapper.get("platform", {})
             name = platform.get("name")
             if name:
