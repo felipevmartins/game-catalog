@@ -10,6 +10,7 @@ from collections.abc import Callable
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
+from urllib.error import HTTPError, URLError
 
 from game_catalog.application.identity import normalize_name
 from game_catalog.integrations.mobygames import ValidationCounts
@@ -21,8 +22,7 @@ GamesTransport = Callable[[str, dict[str, str], bytes], list[JsonObject]]
 
 def token_json(url: str) -> JsonObject:
     request = urllib.request.Request(url, method="POST")
-    with urllib.request.urlopen(request, timeout=30) as response:
-        value = json.loads(response.read().decode("utf-8"))
+    value = _urlopen_json(request)
     if not isinstance(value, dict):
         raise ValueError("IGDB token response must be a JSON object")
     return value
@@ -30,11 +30,28 @@ def token_json(url: str) -> JsonObject:
 
 def games_json(url: str, headers: dict[str, str], body: bytes) -> list[JsonObject]:
     request = urllib.request.Request(url, data=body, headers=headers, method="POST")
-    with urllib.request.urlopen(request, timeout=30) as response:
-        value = json.loads(response.read().decode("utf-8"))
+    value = _urlopen_json(request)
     if not isinstance(value, list):
         raise ValueError("IGDB games response must be a JSON array")
     return value
+
+
+def _urlopen_json(request: urllib.request.Request) -> Any:
+    for attempt in range(6):
+        try:
+            with urllib.request.urlopen(request, timeout=30) as response:
+                return json.loads(response.read().decode("utf-8"))
+        except HTTPError as error:
+            if error.code not in (429, 500, 502, 503, 504) or attempt == 5:
+                raise
+            retry_after = error.headers.get("Retry-After")
+            seconds = float(retry_after) if retry_after and retry_after.isdigit() else 2**attempt
+            time.sleep(min(seconds, 30.0))
+        except (TimeoutError, URLError):
+            if attempt == 5:
+                raise
+            time.sleep(min(float(2**attempt), 30.0))
+    raise RuntimeError("IGDB retry loop ended unexpectedly")
 
 
 class IgdbValidator:

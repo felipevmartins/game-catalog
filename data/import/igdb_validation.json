@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "source": "igdb",
-  "request_delay_seconds": 0.26,
+  "request_delay_seconds": 0.35,
   "release_year_tolerance": 1,
   "platform_aliases": {
     "Family Computer": "Nintendo Entertainment System",

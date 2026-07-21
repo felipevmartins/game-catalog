@@ -120,3 +120,6 @@ game-catalog legacy validate --source igdb --max-requests 100
 The access token is generated automatically and held only in process memory. IGDB validation
 checks direct platforms plus platforms exposed through `ports`, `remakes` and `remasters`. Raw and
 detailed responses remain local; only `data/reports/legacy-validation-igdb.json` is versioned.
+The client stays below the documented four-request-per-second limit and retries transient
+`429`, `500`, `502`, `503` and `504` responses up to six times. For long runs, use batches of 100
+with a 60-second pause between them.

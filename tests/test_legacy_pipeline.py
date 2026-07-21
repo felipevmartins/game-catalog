@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 from urllib.error import HTTPError
 
+from game_catalog.integrations import igdb as igdb_module
 from game_catalog.integrations import rawg as rawg_module
 from game_catalog.integrations.igdb import IgdbValidator
 from game_catalog.integrations.legacy import (
@@ -363,3 +364,33 @@ def test_rawg_transport_retries_transient_gateway_error(monkeypatch: object) -> 
     monkeypatch.setattr(rawg_module.time, "sleep", lambda _: None)  # type: ignore[attr-defined]
 
     assert rawg_module.rawg_json("https://api.rawg.io") == {"results": []}
+
+
+def test_igdb_transport_retries_rate_limit(monkeypatch: object) -> None:
+    class Response:
+        def __enter__(self) -> "Response":
+            return self
+
+        def __exit__(self, *_args: object) -> None:
+            return None
+
+        @staticmethod
+        def read() -> bytes:
+            return b"[]"
+
+    responses: list[object] = [
+        HTTPError("https://api.igdb.com", 429, "rate limit", {"Retry-After": "1"}, None),
+        Response(),
+    ]
+
+    def urlopen(_request: object, timeout: int) -> object:
+        assert timeout == 30
+        response = responses.pop(0)
+        if isinstance(response, Exception):
+            raise response
+        return response
+
+    monkeypatch.setattr(igdb_module.urllib.request, "urlopen", urlopen)  # type: ignore[attr-defined]
+    monkeypatch.setattr(igdb_module.time, "sleep", lambda _: None)  # type: ignore[attr-defined]
+
+    assert igdb_module.games_json("https://api.igdb.com", {}, b"") == []
