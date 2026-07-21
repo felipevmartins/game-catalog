@@ -22,5 +22,7 @@ data/raw/wikidata/*.json
 data/raw/wikidata-legacy/*.json
 data/raw/mobygames-legacy/*.json
 data/raw/rawg-legacy/*.json
+data/raw/igdb-legacy/*.json
 data/normalized/legacy-validation-rawg.jsonl
+data/normalized/legacy-validation-igdb.jsonl
 data/raw/wikidata-legacy/*.json

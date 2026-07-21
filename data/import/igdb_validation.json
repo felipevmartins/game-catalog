@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "source": "igdb",
+  "request_delay_seconds": 0.26,
+  "release_year_tolerance": 1,
+  "platform_aliases": {
+    "Family Computer": "Nintendo Entertainment System",
+    "Super Famicom": "Super Nintendo Entertainment System",
+    "Nintendo GameCube": "Nintendo GameCube",
+    "PlayStation Portable": "PlayStation Portable",
+    "PlayStation Vita": "PlayStation Vita",
+    "Xbox Series X|S": "Xbox Series X|S"
+  }
+}

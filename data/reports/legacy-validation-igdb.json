@@ -1,0 +1,11 @@
+{
+  "source": "igdb",
+  "counts": {
+    "confirmed_stranded": 50,
+    "ported": 9,
+    "not_found": 41,
+    "review_required": 0,
+    "pending": 7828,
+    "requests_made": 100
+  }
+}

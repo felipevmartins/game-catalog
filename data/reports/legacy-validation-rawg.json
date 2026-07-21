@@ -1,11 +1,11 @@
 {
   "source": "rawg",
   "counts": {
-    "confirmed_stranded": 253,
-    "ported": 74,
-    "not_found": 271,
-    "review_required": 1,
-    "pending": 7329,
-    "requests_made": 100
+    "confirmed_stranded": 493,
+    "ported": 144,
+    "not_found": 460,
+    "review_required": 2,
+    "pending": 6829,
+    "requests_made": 500
   }
 }

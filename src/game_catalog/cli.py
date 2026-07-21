@@ -18,6 +18,7 @@ from game_catalog.application.identity import IdentityService
 from game_catalog.application.legacy_import import LegacyImportService
 from game_catalog.application.platform_catalog import PlatformCatalogService
 from game_catalog.application.unit_of_work import UnitOfWork
+from game_catalog.integrations.igdb import IgdbValidator
 from game_catalog.integrations.legacy import LegacyWikidataCollector, normalize_legacy
 from game_catalog.integrations.mobygames import MobyGamesValidator
 from game_catalog.integrations.rawg import RawgValidator
@@ -368,34 +369,57 @@ def validate_legacy(
     report: Annotated[Path, typer.Option("--report")] = Path("data/reports/legacy-validation.json"),
     max_requests: Annotated[int, typer.Option("--max-requests", min=0)] = 100,
 ) -> None:
-    """Validate legacy candidates against MobyGames or RAWG in resumable batches."""
-    validator: RawgValidator | MobyGamesValidator
-    if source == "rawg":
-        if config == Path("data/import/mobygames_validation.json"):
-            config = Path("data/import/rawg_validation.json")
-        if cache_directory == Path("data/raw/mobygames-legacy"):
-            cache_directory = Path("data/raw/rawg-legacy")
-        if output == Path("data/normalized/legacy-validation.jsonl"):
-            output = Path("data/normalized/legacy-validation-rawg.jsonl")
-        if report == Path("data/reports/legacy-validation.json"):
-            report = Path("data/reports/legacy-validation-rawg.json")
-        validator = RawgValidator()
-        api_key = environment_secret("RAWG_API_KEY")
-    elif source == "mobygames":
-        validator = MobyGamesValidator()
-        api_key = environment_secret("MOBYGAMES_API_KEY")
-    else:
-        raise typer.BadParameter("source must be 'mobygames' or 'rawg'")
+    """Validate legacy candidates against MobyGames, RAWG or IGDB in resumable batches."""
     try:
-        counts = validator.validate(
-            input_file,
-            config,
-            cache_directory,
-            output,
-            report,
-            api_key=api_key,
-            max_requests=max_requests,
-        )
+        if source == "igdb":
+            config, cache_directory, output, report = _provider_paths(
+                "igdb", config, cache_directory, output, report
+            )
+            counts = IgdbValidator().validate(
+                input_file,
+                config,
+                cache_directory,
+                output,
+                report,
+                client_id=environment_secret("IGDB_CLIENT_ID"),
+                client_secret=environment_secret("IGDB_CLIENT_SECRET"),
+                max_requests=max_requests,
+            )
+        elif source in {"mobygames", "rawg"}:
+            config, cache_directory, output, report = _provider_paths(
+                source, config, cache_directory, output, report
+            )
+            validator: RawgValidator | MobyGamesValidator = (
+                RawgValidator() if source == "rawg" else MobyGamesValidator()
+            )
+            secret_name = "RAWG_API_KEY" if source == "rawg" else "MOBYGAMES_API_KEY"
+            counts = validator.validate(
+                input_file,
+                config,
+                cache_directory,
+                output,
+                report,
+                api_key=environment_secret(secret_name),
+                max_requests=max_requests,
+            )
+        else:
+            raise typer.BadParameter("source must be 'mobygames', 'rawg' or 'igdb'")
     except ValueError as error:
         raise typer.BadParameter(str(error)) from error
     typer.echo(json.dumps(counts.to_dict(), ensure_ascii=False, sort_keys=True))
+
+
+def _provider_paths(
+    source: str, config: Path, cache: Path, output: Path, report: Path
+) -> tuple[Path, Path, Path, Path]:
+    if source == "mobygames":
+        return config, cache, output, report
+    if config == Path("data/import/mobygames_validation.json"):
+        config = Path(f"data/import/{source}_validation.json")
+    if cache == Path("data/raw/mobygames-legacy"):
+        cache = Path(f"data/raw/{source}-legacy")
+    if output == Path("data/normalized/legacy-validation.jsonl"):
+        output = Path(f"data/normalized/legacy-validation-{source}.jsonl")
+    if report == Path("data/reports/legacy-validation.json"):
+        report = Path(f"data/reports/legacy-validation-{source}.json")
+    return config, cache, output, report

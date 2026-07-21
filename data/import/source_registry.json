@@ -47,6 +47,22 @@
       "contract_version": "rawg-api-2026-07",
       "enabled": true,
       "credential_required": true
+    },
+    {
+      "code": "igdb",
+      "name": "IGDB",
+      "source_type": "commercial_database",
+      "integration_type": "rest_api_oauth2",
+      "base_url": "https://api.igdb.com/v4",
+      "priority": 75,
+      "default_confidence": "high",
+      "license_name": "Twitch Developer Service Agreement",
+      "redistribution_policy": "metadata_cache_private",
+      "terms_url": "https://api-docs.igdb.com/",
+      "terms_reviewed_at": "2026-07-21T00:00:00.000Z",
+      "contract_version": "igdb-v4-2026-07",
+      "enabled": true,
+      "credential_required": true
     }
   ]
 }

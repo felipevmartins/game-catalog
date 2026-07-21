@@ -13,6 +13,7 @@ game-catalog legacy dry-run
 game-catalog legacy apply
 game-catalog legacy validate --source mobygames --max-requests 100
 game-catalog legacy validate --source rawg --max-requests 500
+game-catalog legacy validate --source igdb --max-requests 100
 ```
 
 Raw Wikidata responses are cached under `data/raw/wikidata-legacy`. Normalized candidates are
@@ -43,8 +44,8 @@ safe to repeat.
 
 ## Second-source validation
 
-The `--source` option selects either `mobygames` or `rawg`. Both providers use independent caches,
-normalized outputs and aggregate reports, so one can be used now and the other added later.
+The `--source` option selects `mobygames`, `rawg` or `igdb`. All providers use independent caches,
+normalized outputs and aggregate reports, so their evidence can coexist.
 
 MobyGames validates the candidates in resumable batches. Configure the API key only in the
 process environment; never commit it:
@@ -88,3 +89,22 @@ game-catalog legacy validate --source rawg --max-requests 500
 Raw responses and the detailed normalized validation stay local because RAWG terms prohibit data
 redistribution. Only `data/reports/legacy-validation-rawg.json`, containing aggregate counts, is
 eligible for version control. The MobyGames adapter remains available for a later paid validation.
+
+### IGDB
+
+IGDB uses Twitch client-credentials OAuth. Store only the application credentials in `.env`:
+
+```dotenv
+IGDB_CLIENT_ID=your-client-id
+IGDB_CLIENT_SECRET=your-client-secret
+```
+
+Run a resumable batch with:
+
+```powershell
+game-catalog legacy validate --source igdb --max-requests 100
+```
+
+The access token is generated automatically and held only in process memory. IGDB validation
+checks direct platforms plus platforms exposed through `ports`, `remakes` and `remasters`. Raw and
+detailed responses remain local; only `data/reports/legacy-validation-igdb.json` is versioned.

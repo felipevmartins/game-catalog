@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 
+from game_catalog.integrations.igdb import IgdbValidator
 from game_catalog.integrations.legacy import (
     LegacyWikidataCollector,
     load_legacy_platforms,
@@ -277,3 +278,56 @@ def test_rawg_validation_uses_same_decision_states(tmp_path: Path) -> None:
     output = json.loads((tmp_path / "output.jsonl").read_text(encoding="utf-8"))
     assert output["validation"]["source"] == "rawg"
     assert RawgValidator._platform_names({"platforms": None}, {}) == set()
+
+
+def test_igdb_validation_detects_related_ports(tmp_path: Path) -> None:
+    candidate = {
+        "classification": "candidate_stranded",
+        "wikidata_id": "Q20",
+        "canonical_title": "Former Exclusive",
+        "normalized_title": "former exclusive",
+        "first_release_year": 2005,
+        "source_platform_names": ["PlayStation 2"],
+    }
+    input_file = tmp_path / "legacy.jsonl"
+    input_file.write_text(json.dumps(candidate) + "\n", encoding="utf-8")
+    config = tmp_path / "igdb.json"
+    config.write_text(
+        json.dumps(
+            {
+                "request_delay_seconds": 0,
+                "release_year_tolerance": 1,
+                "platform_aliases": {},
+            }
+        ),
+        encoding="utf-8",
+    )
+    games = [
+        {
+            "id": 20,
+            "name": "Former Exclusive",
+            "first_release_date": 1104537600,
+            "platforms": [{"name": "PlayStation 2"}],
+            "ports": [{"name": "Former Exclusive", "platforms": [{"name": "Windows"}]}],
+        }
+    ]
+    validator = IgdbValidator(
+        token_transport=lambda _: {"access_token": "token"},
+        games_transport=lambda _url, _headers, _body: games,
+    )
+
+    counts = validator.validate(
+        input_file,
+        config,
+        tmp_path / "cache",
+        tmp_path / "output.jsonl",
+        tmp_path / "report.json",
+        client_id="client",
+        client_secret="secret",
+        max_requests=1,
+    )
+
+    assert counts.ported == 1
+    output = json.loads((tmp_path / "output.jsonl").read_text(encoding="utf-8"))
+    assert output["validation"]["related_types"] == ["ports"]
+    assert output["validation"]["other_platforms"] == ["windows"]
