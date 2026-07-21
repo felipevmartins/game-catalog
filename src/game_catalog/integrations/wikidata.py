@@ -199,7 +199,9 @@ ORDER BY ?gameLabel
         return results
 
 
-def normalize_raw_directory(raw_directory: Path, output_file: Path) -> dict[str, int]:
+def normalize_raw_directory(
+    raw_directory: Path, output_file: Path, overrides_file: Path | None = None
+) -> dict[str, int]:
     output_file.parent.mkdir(parents=True, exist_ok=True)
     records: list[JsonObject] = []
     counts = {"franchises": 0, "games": 0, "unresolved": 0, "review_required": 0}
@@ -231,6 +233,28 @@ def normalize_raw_directory(raw_directory: Path, output_file: Path) -> dict[str,
                     "source": "wikidata",
                 }
             )
+            counts["games"] += 1
+    existing_qids = {record["wikidata_id"] for record in records if record["record_type"] == "game"}
+    if overrides_file is not None and overrides_file.exists():
+        overrides = json.loads(overrides_file.read_text(encoding="utf-8"))
+        for override in overrides.get("games", []):
+            if override.get("review_status") != "approved":
+                continue
+            qid = override["wikidata_id"]
+            if qid in existing_qids:
+                continue
+            title = override["canonical_title"].strip()
+            records.append(
+                {
+                    "record_type": "game",
+                    "franchise_key": override["franchise_key"],
+                    "canonical_title": title,
+                    "normalized_title": normalize_name(title),
+                    "wikidata_id": qid,
+                    "source": "wikidata",
+                }
+            )
+            existing_qids.add(qid)
             counts["games"] += 1
     with output_file.open("w", encoding="utf-8", newline="\n") as stream:
         for record in records:

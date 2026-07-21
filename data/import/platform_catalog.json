@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "manufacturers": [
+    {"key": "sony-interactive-entertainment", "name": "Sony Interactive Entertainment", "country_code": "JP"},
+    {"key": "microsoft", "name": "Microsoft", "country_code": "US"},
+    {"key": "nintendo", "name": "Nintendo", "country_code": "JP"}
+  ],
+  "ecosystems": [
+    {"key": "playstation", "name": "PlayStation", "manufacturer": "sony-interactive-entertainment"},
+    {"key": "xbox", "name": "Xbox", "manufacturer": "microsoft"},
+    {"key": "nintendo", "name": "Nintendo", "manufacturer": "nintendo"}
+  ],
+  "sources": [
+    {"code": "playstation_official", "name": "PlayStation official history", "url": "https://sonyinteractive.com/en/our-company/company-history/"},
+    {"code": "xbox_official", "name": "Xbox official history", "url": "https://www.xbox.com/en-CA/xbox-25th-anniversary"},
+    {"code": "nintendo_official", "name": "Nintendo official company history", "url": "https://www.nintendo.co.jp/corporate/en/history/index.html"}
+  ],
+  "platforms": [
+    {"name": "PlayStation", "manufacturer": "sony-interactive-entertainment", "ecosystem": "playstation", "platform_type": "home_console", "release_year": 1994, "source": "playstation_official"},
+    {"name": "PocketStation", "manufacturer": "sony-interactive-entertainment", "ecosystem": "playstation", "platform_type": "portable_console", "release_year": 1999, "source": "playstation_official"},
+    {"name": "PlayStation 2", "manufacturer": "sony-interactive-entertainment", "ecosystem": "playstation", "platform_type": "home_console", "release_year": 2000, "source": "playstation_official"},
+    {"name": "PlayStation Portable", "manufacturer": "sony-interactive-entertainment", "ecosystem": "playstation", "platform_type": "portable_console", "release_year": 2004, "source": "playstation_official"},
+    {"name": "PlayStation 3", "manufacturer": "sony-interactive-entertainment", "ecosystem": "playstation", "platform_type": "home_console", "release_year": 2006, "source": "playstation_official"},
+    {"name": "PlayStation Vita", "manufacturer": "sony-interactive-entertainment", "ecosystem": "playstation", "platform_type": "portable_console", "release_year": 2011, "source": "playstation_official"},
+    {"name": "PlayStation 4", "manufacturer": "sony-interactive-entertainment", "ecosystem": "playstation", "platform_type": "home_console", "release_year": 2013, "source": "playstation_official"},
+    {"name": "PlayStation VR", "manufacturer": "sony-interactive-entertainment", "ecosystem": "playstation", "platform_type": "other", "release_year": 2016, "source": "playstation_official"},
+    {"name": "PlayStation 5", "manufacturer": "sony-interactive-entertainment", "ecosystem": "playstation", "platform_type": "home_console", "release_year": 2020, "source": "playstation_official"},
+    {"name": "PlayStation VR2", "manufacturer": "sony-interactive-entertainment", "ecosystem": "playstation", "platform_type": "other", "release_year": 2023, "source": "playstation_official"},
+
+    {"name": "Xbox", "manufacturer": "microsoft", "ecosystem": "xbox", "platform_type": "home_console", "release_year": 2001, "source": "xbox_official"},
+    {"name": "Xbox 360", "manufacturer": "microsoft", "ecosystem": "xbox", "platform_type": "home_console", "release_year": 2005, "source": "xbox_official"},
+    {"name": "Xbox One", "manufacturer": "microsoft", "ecosystem": "xbox", "platform_type": "home_console", "release_year": 2013, "source": "xbox_official"},
+    {"name": "Xbox Series X|S", "manufacturer": "microsoft", "ecosystem": "xbox", "platform_type": "home_console", "release_year": 2020, "source": "xbox_official"},
+    {"name": "Xbox Cloud Gaming", "manufacturer": "microsoft", "ecosystem": "xbox", "platform_type": "cloud", "release_year": 2020, "source": "xbox_official"},
+
+    {"name": "Color TV-Game", "manufacturer": "nintendo", "ecosystem": "nintendo", "platform_type": "home_console", "release_year": 1977, "source": "nintendo_official"},
+    {"name": "Game & Watch", "manufacturer": "nintendo", "ecosystem": "nintendo", "platform_type": "portable_console", "release_year": 1980, "source": "nintendo_official"},
+    {"name": "Nintendo Entertainment System", "manufacturer": "nintendo", "ecosystem": "nintendo", "platform_type": "home_console", "release_year": 1983, "source": "nintendo_official"},
+    {"name": "Nintendo VS. System", "manufacturer": "nintendo", "ecosystem": "nintendo", "platform_type": "arcade", "release_year": 1984, "source": "nintendo_official"},
+    {"name": "Famicom Disk System", "manufacturer": "nintendo", "ecosystem": "nintendo", "platform_type": "other", "release_year": 1986, "source": "nintendo_official"},
+    {"name": "PlayChoice-10", "manufacturer": "nintendo", "ecosystem": "nintendo", "platform_type": "arcade", "release_year": 1986, "source": "nintendo_official"},
+    {"name": "Game Boy", "manufacturer": "nintendo", "ecosystem": "nintendo", "platform_type": "portable_console", "release_year": 1989, "source": "nintendo_official"},
+    {"name": "Super Nintendo Entertainment System", "manufacturer": "nintendo", "ecosystem": "nintendo", "platform_type": "home_console", "release_year": 1990, "source": "nintendo_official"},
+    {"name": "Satellaview", "manufacturer": "nintendo", "ecosystem": "nintendo", "platform_type": "other", "release_year": 1995, "source": "nintendo_official"},
+    {"name": "Virtual Boy", "manufacturer": "nintendo", "ecosystem": "nintendo", "platform_type": "portable_console", "release_year": 1995, "source": "nintendo_official"},
+    {"name": "Nintendo 64", "manufacturer": "nintendo", "ecosystem": "nintendo", "platform_type": "home_console", "release_year": 1996, "source": "nintendo_official"},
+    {"name": "Game Boy Color", "manufacturer": "nintendo", "ecosystem": "nintendo", "platform_type": "portable_console", "release_year": 1998, "source": "nintendo_official"},
+    {"name": "Nintendo 64DD", "manufacturer": "nintendo", "ecosystem": "nintendo", "platform_type": "other", "release_year": 1999, "source": "nintendo_official"},
+    {"name": "Pokémon Mini", "manufacturer": "nintendo", "ecosystem": "nintendo", "platform_type": "portable_console", "release_year": 2001, "source": "nintendo_official"},
+    {"name": "Game Boy Advance", "manufacturer": "nintendo", "ecosystem": "nintendo", "platform_type": "portable_console", "release_year": 2001, "source": "nintendo_official"},
+    {"name": "Nintendo GameCube", "manufacturer": "nintendo", "ecosystem": "nintendo", "platform_type": "home_console", "release_year": 2001, "source": "nintendo_official"},
+    {"name": "Nintendo DS", "manufacturer": "nintendo", "ecosystem": "nintendo", "platform_type": "portable_console", "release_year": 2004, "source": "nintendo_official"},
+    {"name": "Wii", "manufacturer": "nintendo", "ecosystem": "nintendo", "platform_type": "home_console", "release_year": 2006, "source": "nintendo_official"},
+    {"name": "Nintendo DSi", "manufacturer": "nintendo", "ecosystem": "nintendo", "platform_type": "portable_console", "release_year": 2008, "source": "nintendo_official"},
+    {"name": "Nintendo 3DS", "manufacturer": "nintendo", "ecosystem": "nintendo", "platform_type": "portable_console", "release_year": 2011, "source": "nintendo_official"},
+    {"name": "Wii U", "manufacturer": "nintendo", "ecosystem": "nintendo", "platform_type": "home_console", "release_year": 2012, "source": "nintendo_official"},
+    {"name": "New Nintendo 3DS", "manufacturer": "nintendo", "ecosystem": "nintendo", "platform_type": "portable_console", "release_year": 2014, "source": "nintendo_official"},
+    {"name": "Nintendo Switch", "manufacturer": "nintendo", "ecosystem": "nintendo", "platform_type": "hybrid_console", "release_year": 2017, "source": "nintendo_official"},
+    {"name": "Nintendo Switch 2", "manufacturer": "nintendo", "ecosystem": "nintendo", "platform_type": "hybrid_console", "release_year": 2025, "source": "nintendo_official"}
+  ]
+}

@@ -104,4 +104,6 @@ prova vertical + revisão de termos → coletores externos
 - Fluxo vertical Game → Edition → Release → coleção pessoal pela CLI: **implementado e testado**.
 - Importação inicial de franquias/jogos via Wikidata, com raw, normalização, dry-run, proveniência,
   revisão e aplicação idempotente: **implementada, executada e testada**.
-- Próxima ação: revisar as cinco identidades pendentes e enriquecer Releases/plataformas.
+- Catálogo idempotente com 39 plataformas PlayStation, Xbox e Nintendo: **implementado e aplicado**.
+- `Fable Anniversary` (`Q32008364`) e Release mundial de Xbox 360: **cadastrados**.
+- Próxima ação: revisar as cinco identidades pendentes e enriquecer Releases automaticamente.

@@ -14,6 +14,7 @@ from sqlalchemy.orm import Session, sessionmaker
 from game_catalog.application.collection import CollectionService
 from game_catalog.application.franchise_import import FranchiseImportService
 from game_catalog.application.identity import IdentityService
+from game_catalog.application.platform_catalog import PlatformCatalogService
 from game_catalog.application.unit_of_work import UnitOfWork
 from game_catalog.integrations.wikidata import WikidataCollector, normalize_raw_directory
 from game_catalog.persistence.database import create_database_engine, create_session_factory
@@ -24,11 +25,13 @@ game_app = typer.Typer(no_args_is_help=True)
 release_app = typer.Typer(no_args_is_help=True)
 collection_app = typer.Typer(no_args_is_help=True)
 import_app = typer.Typer(no_args_is_help=True)
+platform_app = typer.Typer(no_args_is_help=True)
 app.add_typer(db_app, name="db")
 app.add_typer(game_app, name="game")
 app.add_typer(release_app, name="release")
 app.add_typer(collection_app, name="collection")
 app.add_typer(import_app, name="import")
+app.add_typer(platform_app, name="platform")
 
 
 def database_url(path: Path) -> str:
@@ -183,7 +186,7 @@ def normalize_franchise_discovery(
     report: Annotated[Path, typer.Option("--report")] = Path("data/reports/initial-import.json"),
 ) -> None:
     """Convert raw discovery responses into deterministic JSON Lines."""
-    counts = normalize_raw_directory(raw_directory, output)
+    counts = normalize_raw_directory(raw_directory, output, Path("data/import/game_overrides.json"))
     pending = []
     for line in output.read_text(encoding="utf-8").splitlines():
         record = json.loads(line)
@@ -234,3 +237,33 @@ def apply_franchise_import(
 ) -> None:
     """Apply the normalized import idempotently."""
     run_franchise_import(context, input_file, dry_run=False)
+
+
+@platform_app.command("sync")
+def sync_platforms(
+    context: typer.Context,
+    catalog: Annotated[Path, typer.Option("--catalog")] = Path("data/import/platform_catalog.json"),
+    dry_run: Annotated[bool, typer.Option("--dry-run")] = False,
+) -> None:
+    """Synchronize the curated PlayStation, Xbox and Nintendo platforms."""
+    path = selected_database(context)
+    if not path.exists():
+        raise typer.BadParameter("database does not exist; run 'db init' first")
+    sessions = sessions_for(path)
+    result = PlatformCatalogService(lambda: UnitOfWork(sessions)).sync(catalog, dry_run=dry_run)
+    typer.echo(json.dumps(result.to_dict(), ensure_ascii=False, sort_keys=True))
+
+
+@platform_app.command("list")
+def list_platforms(context: typer.Context) -> None:
+    """List active platform families."""
+    path = selected_database(context)
+    if not path.exists():
+        raise typer.BadParameter("database does not exist; run 'db init' first")
+    sessions = sessions_for(path)
+    with UnitOfWork(sessions) as uow:
+        platforms = uow.platforms.list_active()
+    for record in platforms:
+        typer.echo(
+            f"{record.id}\t{record.name}\t{record.platform_type}\t{record.release_year or ''}"
+        )

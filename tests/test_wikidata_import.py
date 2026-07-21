@@ -68,6 +68,48 @@ def test_collector_resolves_exact_candidate_and_normalizes_games(tmp_path: Path)
     assert lines[1]["wikidata_id"] == "Q456"
 
 
+def test_approved_game_override_is_added_once(tmp_path: Path) -> None:
+    raw = tmp_path / "raw"
+    raw.mkdir()
+    raw.joinpath("fable.json").write_text(
+        json.dumps(
+            {
+                "franchise": {
+                    "key": "fable",
+                    "canonical_name": "Fable",
+                    "ecosystem": "xbox",
+                    "aliases": [],
+                    "inclusion_status": "approved",
+                    "wikidata_id": "Q1",
+                    "resolution_status": "resolved",
+                },
+                "games_response": {"results": {"bindings": []}},
+            }
+        ),
+        encoding="utf-8",
+    )
+    overrides = tmp_path / "overrides.json"
+    overrides.write_text(
+        json.dumps(
+            {
+                "games": [
+                    {
+                        "wikidata_id": "Q32008364",
+                        "canonical_title": "Fable Anniversary",
+                        "franchise_key": "fable",
+                        "review_status": "approved",
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+    output = tmp_path / "games.jsonl"
+    counts = normalize_raw_directory(raw, output, overrides)
+    assert counts["games"] == 1
+    assert "Fable Anniversary" in output.read_text(encoding="utf-8")
+
+
 def test_import_is_dry_run_safe_and_idempotent(tmp_path: Path) -> None:
     database = tmp_path / "catalog.db"
     config = Config("alembic.ini")
