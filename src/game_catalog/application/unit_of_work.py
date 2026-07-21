@@ -5,6 +5,7 @@ from types import TracebackType
 from sqlalchemy.orm import Session, sessionmaker
 
 from game_catalog.persistence.repositories import (
+    CollectionRepository,
     GameRepository,
     PlatformRepository,
     RegionRepository,
@@ -16,12 +17,14 @@ class UnitOfWork:
         self.session_factory = session_factory
         self.session: Session | None = None
         self.games: GameRepository
+        self.collection: CollectionRepository
         self.platforms: PlatformRepository
         self.regions: RegionRepository
 
     def __enter__(self) -> "UnitOfWork":
         self.session = self.session_factory()
         self.games = GameRepository(self.session)
+        self.collection = CollectionRepository(self.session)
         self.platforms = PlatformRepository(self.session)
         self.regions = RegionRepository(self.session)
         return self

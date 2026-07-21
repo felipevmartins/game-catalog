@@ -101,4 +101,5 @@ prova vertical + revisão de termos → coletores externos
 - Migration `0009_seed_reference_data`: **implementada e testada** em SQLite real.
 - Repositórios iniciais, Unit of Work e criação transacional de Game/Edition: **implementados e testados**.
 - CLI `db init`, `game add` e `game list`: **implementada e testada de ponta a ponta**.
-- Próxima ação: ampliar a prova vertical com Release por plataforma/região e coleção pessoal.
+- Fluxo vertical Game → Edition → Release → coleção pessoal pela CLI: **implementado e testado**.
+- Próxima ação: melhorar consultas/apresentação e adicionar importação local idempotente.

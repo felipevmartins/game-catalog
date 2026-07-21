@@ -3,7 +3,14 @@
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from game_catalog.persistence.models import Game, GameEdition, Platform, Region
+from game_catalog.persistence.models import (
+    Game,
+    GameEdition,
+    PersonalCollectionItem,
+    Platform,
+    Region,
+    Release,
+)
 
 
 class RegionRepository:
@@ -51,6 +58,9 @@ class GameRepository:
     def add_edition(self, edition: GameEdition) -> None:
         self.session.add(edition)
 
+    def add_release(self, release: Release) -> None:
+        self.session.add(release)
+
     def get(self, game_id: str) -> Game | None:
         return self.session.get(Game, game_id)
 
@@ -68,5 +78,32 @@ class GameRepository:
         return list(
             self.session.scalars(
                 select(Game).where(Game.deleted_at.is_(None)).order_by(Game.canonical_title)
+            )
+        )
+
+    def get_original_edition(self, game_id: str) -> GameEdition | None:
+        return self.session.scalar(
+            select(GameEdition).where(
+                GameEdition.game_id == game_id,
+                GameEdition.identity_discriminator == "original",
+                GameEdition.deleted_at.is_(None),
+            )
+        )
+
+    def get_release(self, release_id: str) -> Release | None:
+        return self.session.get(Release, release_id)
+
+
+class CollectionRepository:
+    def __init__(self, session: Session) -> None:
+        self.session = session
+
+    def add(self, item: PersonalCollectionItem) -> None:
+        self.session.add(item)
+
+    def list_items(self) -> list[PersonalCollectionItem]:
+        return list(
+            self.session.scalars(
+                select(PersonalCollectionItem).order_by(PersonalCollectionItem.created_at)
             )
         )

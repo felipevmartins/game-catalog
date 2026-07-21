@@ -8,6 +8,7 @@ from alembic import command
 from alembic.config import Config
 from sqlalchemy.orm import Session, sessionmaker
 
+from game_catalog.application.collection import CollectionService
 from game_catalog.application.identity import IdentityService
 from game_catalog.application.unit_of_work import UnitOfWork
 from game_catalog.persistence.database import create_database_engine, create_session_factory
@@ -15,8 +16,12 @@ from game_catalog.persistence.database import create_database_engine, create_ses
 app = typer.Typer(no_args_is_help=True)
 db_app = typer.Typer(no_args_is_help=True)
 game_app = typer.Typer(no_args_is_help=True)
+release_app = typer.Typer(no_args_is_help=True)
+collection_app = typer.Typer(no_args_is_help=True)
 app.add_typer(db_app, name="db")
 app.add_typer(game_app, name="game")
+app.add_typer(release_app, name="release")
+app.add_typer(collection_app, name="collection")
 
 
 def database_url(path: Path) -> str:
@@ -90,3 +95,54 @@ def list_games(context: typer.Context) -> None:
         return
     for game in games:
         typer.echo(f"{game.id}\t{game.canonical_title}")
+
+
+@release_app.command("add")
+def add_release(
+    context: typer.Context,
+    game_id: str,
+    platform: Annotated[str, typer.Option("--platform")],
+    region: Annotated[str, typer.Option("--region")] = "WORLD",
+) -> None:
+    """Add an official Release for a seeded platform and region."""
+    path = selected_database(context)
+    if not path.exists():
+        raise typer.BadParameter("database does not exist; run 'db init' first")
+    sessions = sessions_for(path)
+    service = IdentityService(lambda: UnitOfWork(sessions))
+    try:
+        created = service.create_release(game_id, platform, region)
+    except ValueError as error:
+        raise typer.BadParameter(str(error)) from error
+    typer.echo(f"Created release {created.release_id}")
+
+
+@collection_app.command("add")
+def add_collection_item(context: typer.Context, game_id: str, release_id: str) -> None:
+    """Add an owned Release to the private collection."""
+    path = selected_database(context)
+    if not path.exists():
+        raise typer.BadParameter("database does not exist; run 'db init' first")
+    sessions = sessions_for(path)
+    service = CollectionService(lambda: UnitOfWork(sessions))
+    try:
+        created = service.add_release(game_id, release_id)
+    except ValueError as error:
+        raise typer.BadParameter(str(error)) from error
+    typer.echo(f"Added collection item {created.item_id}")
+
+
+@collection_app.command("list")
+def list_collection(context: typer.Context) -> None:
+    """List private collection items."""
+    path = selected_database(context)
+    if not path.exists():
+        raise typer.BadParameter("database does not exist; run 'db init' first")
+    sessions = sessions_for(path)
+    with UnitOfWork(sessions) as uow:
+        items = uow.collection.list_items()
+    if not items:
+        typer.echo("No collection items found.")
+        return
+    for item in items:
+        typer.echo(f"{item.id}\tgame={item.game_id}\trelease={item.release_id}")
