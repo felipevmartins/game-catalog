@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "source": "rawg",
-  "request_delay_seconds": 0.15,
+  "request_delay_seconds": 0.75,
   "release_year_tolerance": 1,
   "platform_aliases": {
     "NES": "Nintendo Entertainment System",

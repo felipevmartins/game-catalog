@@ -9,6 +9,7 @@ import urllib.request
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any
+from urllib.error import HTTPError, URLError
 
 from game_catalog.application.identity import normalize_name
 from game_catalog.integrations.mobygames import ValidationCounts
@@ -25,8 +26,22 @@ def rawg_json(url: str) -> JsonObject:
             "User-Agent": "game-catalog/0.1 (https://github.com/felipevmartins/game-catalog)",
         },
     )
-    with urllib.request.urlopen(request, timeout=30) as response:
-        value = json.loads(response.read().decode("utf-8"))
+    value: Any = None
+    for attempt in range(6):
+        try:
+            with urllib.request.urlopen(request, timeout=30) as response:
+                value = json.loads(response.read().decode("utf-8"))
+            break
+        except HTTPError as error:
+            if error.code not in (429, 502, 503, 504) or attempt == 5:
+                raise
+            retry_after = error.headers.get("Retry-After")
+            seconds = float(retry_after) if retry_after and retry_after.isdigit() else 2**attempt
+            time.sleep(min(seconds, 30.0))
+        except (TimeoutError, URLError):
+            if attempt == 5:
+                raise
+            time.sleep(min(float(2**attempt), 30.0))
     if not isinstance(value, dict):
         raise ValueError("RAWG response must be a JSON object")
     return value

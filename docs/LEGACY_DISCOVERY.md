@@ -89,6 +89,18 @@ game-catalog legacy validate --source rawg --max-requests 500
 Raw responses and the detailed normalized validation stay local because RAWG terms prohibit data
 redistribution. Only `data/reports/legacy-validation-rawg.json`, containing aggregate counts, is
 eligible for version control. The MobyGames adapter remains available for a later paid validation.
+Transient `429`, `502`, `503` and `504` responses are retried up to six times with exponential
+backoff and `Retry-After` support. Completed responses remain cached if the provider stays offline.
+For long runs, prefer batches of 50 to 100 requests and pause for two minutes between batches:
+
+```powershell
+do {
+    $output = game-catalog legacy validate --source rawg --max-requests 100
+    $output
+    $state = $output | ConvertFrom-Json
+    if ($state.pending -gt 0 -and $state.requests_made -gt 0) { Start-Sleep -Seconds 120 }
+} while ($state.pending -gt 0 -and $state.requests_made -gt 0)
+```
 
 ### IGDB
 
