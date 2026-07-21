@@ -26,6 +26,8 @@ Rule `legacy-platform-lock-v1` classifies a game as:
 - `ported_to_pc` when a Windows, Linux, macOS or DOS platform is present;
 - `ported_to_other_platform` when more than one platform is present;
 - `too_recent` while the configured five-year observation window has not elapsed.
+- `excluded_sports` when Wikidata classifies the title as a sports video game (`Q868217`) or a
+  subclass; these records do not enter second-source validation.
 
 The result is deliberately conservative. Absence of a Wikidata statement is not proof that a
 port does not exist. Applying the result only creates a `dirty` platform-lock assessment and a
@@ -65,3 +67,7 @@ The second-source output is `data/normalized/legacy-validation.jsonl`, with a su
 Matching uses normalized exact titles, release-year tolerance and overlap with the originating
 console. A second-source confirmation is evidence for editorial review; current storefront,
 backward-compatibility and official availability still require their own checks.
+
+Sports games are excluded by editorial preference from the legacy candidate queue. They remain in
+the normalized evidence with `excluded_sports`, allowing a specific title to be curated manually
+later without weakening the general rule.

@@ -30,6 +30,8 @@ class LegacyApplyResult:
     reviews_created: int = 0
     catalog_candidates_missing: int = 0
     skipped_non_candidates: int = 0
+    assessments_staled: int = 0
+    reviews_cancelled: int = 0
     dry_run: bool = False
 
     def to_dict(self) -> dict[str, int | bool]:
@@ -75,6 +77,44 @@ class LegacyImportService:
                 session.add(reference)
                 session.flush()
             for record in records:
+                if record["classification"] == "excluded_sports":
+                    external = session.scalar(
+                        select(GameExternalId).where(
+                            GameExternalId.source_id == source.id,
+                            GameExternalId.external_id == record["wikidata_id"],
+                            GameExternalId.context == "global",
+                        )
+                    )
+                    if external is not None:
+                        assessment = session.get(PlatformLockAssessment, external.game_id)
+                        if (
+                            assessment is not None
+                            and assessment.rule_version == record["rule_version"]
+                        ):
+                            assessment.locked = None
+                            assessment.severity_level = None
+                            assessment.state = "stale"
+                            assessment.justification = (
+                                "Excluded by editorial preference: sports video game."
+                            )
+                            assessment.stale_since = now
+                            result.assessments_staled += 1
+                        reviews = session.scalars(
+                            select(ReviewItem).where(
+                                ReviewItem.entity_type == "game",
+                                ReviewItem.entity_id == external.game_id,
+                                ReviewItem.reason == "legacy_platform_confirmation",
+                                ReviewItem.status.in_(("pending", "deferred")),
+                            )
+                        )
+                        for review in reviews:
+                            review.status = "cancelled"
+                            review.reviewed_at = now
+                            review.reviewed_by = "system"
+                            review.review_notes = "Excluded by sports-game editorial policy."
+                            result.reviews_cancelled += 1
+                    result.skipped_non_candidates += 1
+                    continue
                 if record["classification"] != "candidate_stranded":
                     result.skipped_non_candidates += 1
                     continue
@@ -120,9 +160,14 @@ class LegacyImportService:
                     assessment.input_version = input_version
                     assessment.calculated_at = now
                     result.assessments_updated += 1
-                key = f"legacy_platform_confirmation:{external.game_id}:{input_version}"
+                key = f"legacy_platform_confirmation:{external.game_id}"
                 existing = session.scalar(
-                    select(ReviewItem).where(ReviewItem.deduplication_key == key)
+                    select(ReviewItem).where(
+                        ReviewItem.entity_type == "game",
+                        ReviewItem.entity_id == external.game_id,
+                        ReviewItem.reason == "legacy_platform_confirmation",
+                        ReviewItem.status.in_(("pending", "deferred")),
+                    )
                 )
                 if existing is None:
                     session.add(

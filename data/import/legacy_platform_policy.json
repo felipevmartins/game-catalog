@@ -14,6 +14,7 @@
     "Game & Watch": ["Game & Watch series"]
   },
   "pc_platform_qids": ["Q1406", "Q388", "Q14116", "Q170434"],
+  "excluded_genre_qids": ["Q868217"],
   "minimum_release_age_years": 5,
   "source": "wikidata"
 }
