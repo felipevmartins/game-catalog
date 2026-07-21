@@ -29,7 +29,7 @@ same normalized snapshot and review conflict are deduplicated.
 
 - 50 editorial franchises across PlayStation, Xbox and Nintendo.
 - 46 franchise identities resolved automatically.
-- 490 Games normalized and imported with an original Edition, including curated
+- 491 Games normalized and imported with an original Edition, including curated
   exceptions for items missing the expected Wikidata series relation.
 - 4 franchise identities pending human review.
 - raw QID labels, missing labels and duplicate external IDs are excluded or reported.

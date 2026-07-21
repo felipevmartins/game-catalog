@@ -64,6 +64,14 @@
       "source_url": "https://www.wikidata.org/wiki/Q123473426",
       "review_status": "approved",
       "review_reason": "Wikidata does not expose the expected series relation used by automatic discovery."
+    },
+    {
+      "wikidata_id": "Q17146",
+      "canonical_title": "Uncharted 2: Among Thieves",
+      "franchise_key": "uncharted",
+      "source_url": "https://www.wikidata.org/wiki/Q17146",
+      "review_status": "approved",
+      "review_reason": "Wikidata identifies the item as part of the Uncharted series but the discovery response does not provide a usable game label."
     }
   ]
 }
