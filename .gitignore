@@ -20,4 +20,5 @@ build/
 .env
 data/raw/wikidata/*.json
 data/raw/wikidata-legacy/*.json
+data/raw/mobygames-legacy/*.json
 data/raw/wikidata-legacy/*.json

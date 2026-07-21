@@ -11,6 +11,7 @@ game-catalog legacy discover
 game-catalog legacy normalize
 game-catalog legacy dry-run
 game-catalog legacy apply
+game-catalog legacy validate --max-requests 100
 ```
 
 Raw Wikidata responses are cached under `data/raw/wikidata-legacy`. Normalized candidates are
@@ -36,3 +37,31 @@ confirmed platform lock. Candidates not yet in the curated catalog stay in the r
 Discovery is resumable: a successful raw platform response is reused. Delete only a specific raw
 platform file when that platform must be refreshed. Normalize and dry-run are deterministic and
 safe to repeat.
+
+## Second-source validation
+
+MobyGames validates the candidates in resumable batches. Configure the API key only in the
+process environment; never commit it:
+
+```powershell
+$env:MOBYGAMES_API_KEY = "your-key"
+game-catalog legacy validate --max-requests 100
+```
+
+At the documented one-request-per-second hobbyist limit, validating every initial candidate takes
+multiple sessions. Responses are cached under `data/raw/mobygames-legacy`, so repeating the command
+reuses completed work and spends the request budget only on pending candidates. Use
+`--max-requests 0` to rebuild reports exclusively from the local cache.
+
+The second-source output is `data/normalized/legacy-validation.jsonl`, with a summary in
+`data/reports/legacy-validation.json`. Validation states are:
+
+- `confirmed_stranded`: one exact MobyGames match and no additional platform;
+- `ported`: another console or computer platform was found;
+- `not_found`: no exact-title match;
+- `review_required`: multiple plausible exact-title matches;
+- `pending`: no cached response and the current request budget was exhausted.
+
+Matching uses normalized exact titles, release-year tolerance and overlap with the originating
+console. A second-source confirmation is evidence for editorial review; current storefront,
+backward-compatibility and official availability still require their own checks.

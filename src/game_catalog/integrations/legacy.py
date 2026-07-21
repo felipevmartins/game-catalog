@@ -161,6 +161,7 @@ def normalize_legacy(
     cutoff = datetime.now(UTC).year - int(policy["minimum_release_age_years"])
     merged: dict[str, JsonObject] = {}
     unresolved: list[str] = []
+    platform_names: dict[str, str] = {}
     for path in sorted(raw_directory.glob("*.json")):
         raw = json.loads(path.read_text(encoding="utf-8"))
         platform = raw["platform"]
@@ -168,6 +169,7 @@ def normalize_legacy(
             unresolved.append(platform["name"])
             continue
         source_qid = platform["wikidata_id"]
+        platform_names[source_qid] = platform["name"]
         for binding in raw["games_response"].get("results", {}).get("bindings", []):
             uri = binding.get("game", {}).get("value", "")
             qid = uri.rsplit("/", 1)[-1]
@@ -187,6 +189,7 @@ def normalize_legacy(
                     "canonical_title": title,
                     "normalized_title": normalize_name(title),
                     "source_platforms": [],
+                    "source_platform_names": [],
                     "platform_qids": platform_qids,
                     "first_release_year": year,
                     "source": "wikidata",
@@ -194,6 +197,9 @@ def normalize_legacy(
             )
             if source_qid not in record["source_platforms"]:
                 record["source_platforms"].append(source_qid)
+            source_name = platform_names[source_qid]
+            if source_name not in record["source_platform_names"]:
+                record["source_platform_names"].append(source_name)
 
     pc_qids = set(policy["pc_platform_qids"])
     counts = {
@@ -222,6 +228,7 @@ def normalize_legacy(
             else "ported"
         ] += 1
         record["source_platforms"].sort()
+        record["source_platform_names"].sort()
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(
         "".join(

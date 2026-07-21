@@ -1,0 +1,10 @@
+{
+  "counts": {
+    "confirmed_stranded": 0,
+    "ported": 0,
+    "not_found": 0,
+    "review_required": 0,
+    "pending": 9264,
+    "requests_made": 0
+  }
+}

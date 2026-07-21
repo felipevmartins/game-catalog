@@ -15,6 +15,22 @@
       "terms_reviewed_at": "2026-07-20T00:00:00.000Z",
       "contract_version": "wdqs-2026-07",
       "enabled": true
+    },
+    {
+      "code": "mobygames",
+      "name": "MobyGames",
+      "source_type": "commercial_database",
+      "integration_type": "rest_api",
+      "base_url": "https://api.mobygames.com/v1",
+      "priority": 80,
+      "default_confidence": "high",
+      "license_name": "MobyGames API terms",
+      "redistribution_policy": "metadata_cache_private",
+      "terms_url": "https://www.mobygames.com/info/api/",
+      "terms_reviewed_at": "2026-07-20T00:00:00.000Z",
+      "contract_version": "mobygames-v1-2026-07",
+      "enabled": true,
+      "credential_required": true
     }
   ]
 }

@@ -1,6 +1,7 @@
 """Command-line interface for the local catalog."""
 
 import json
+import os
 import sys
 from io import TextIOWrapper
 from pathlib import Path
@@ -18,6 +19,7 @@ from game_catalog.application.legacy_import import LegacyImportService
 from game_catalog.application.platform_catalog import PlatformCatalogService
 from game_catalog.application.unit_of_work import UnitOfWork
 from game_catalog.integrations.legacy import LegacyWikidataCollector, normalize_legacy
+from game_catalog.integrations.mobygames import MobyGamesValidator
 from game_catalog.integrations.wikidata import WikidataCollector, normalize_raw_directory
 from game_catalog.persistence.database import create_database_engine, create_session_factory
 
@@ -331,3 +333,36 @@ def apply_legacy(
 ) -> None:
     """Create dirty assessments and reviews for known legacy candidates."""
     run_legacy_apply(context, input_file, dry_run=False)
+
+
+@legacy_app.command("validate")
+def validate_legacy(
+    input_file: Annotated[Path, typer.Option("--input")] = Path(
+        "data/normalized/legacy-games.jsonl"
+    ),
+    config: Annotated[Path, typer.Option("--config")] = Path(
+        "data/import/mobygames_validation.json"
+    ),
+    cache_directory: Annotated[Path, typer.Option("--cache-dir")] = Path(
+        "data/raw/mobygames-legacy"
+    ),
+    output: Annotated[Path, typer.Option("--output")] = Path(
+        "data/normalized/legacy-validation.jsonl"
+    ),
+    report: Annotated[Path, typer.Option("--report")] = Path("data/reports/legacy-validation.json"),
+    max_requests: Annotated[int, typer.Option("--max-requests", min=0)] = 100,
+) -> None:
+    """Validate legacy candidates against MobyGames in resumable batches."""
+    try:
+        counts = MobyGamesValidator().validate(
+            input_file,
+            config,
+            cache_directory,
+            output,
+            report,
+            api_key=os.environ.get("MOBYGAMES_API_KEY"),
+            max_requests=max_requests,
+        )
+    except ValueError as error:
+        raise typer.BadParameter(str(error)) from error
+    typer.echo(json.dumps(counts.to_dict(), ensure_ascii=False, sort_keys=True))

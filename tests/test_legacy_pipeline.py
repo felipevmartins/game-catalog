@@ -6,6 +6,7 @@ from game_catalog.integrations.legacy import (
     load_legacy_platforms,
     normalize_legacy,
 )
+from game_catalog.integrations.mobygames import MobyGamesValidator
 
 
 def test_policy_covers_every_supported_console_family() -> None:
@@ -123,3 +124,95 @@ def test_discovery_uses_windows_safe_cache_names(tmp_path: Path) -> None:
     LegacyWikidataCollector(lambda _: next(responses)).collect(policy, catalog, tmp_path / "raw")
 
     assert (tmp_path / "raw" / "xbox-series-x-s.json").exists()
+
+
+def test_mobygames_validation_is_resumable_and_classifies_ports(tmp_path: Path) -> None:
+    input_file = tmp_path / "legacy.jsonl"
+    records = [
+        {
+            "classification": "candidate_stranded",
+            "wikidata_id": "Q1",
+            "canonical_title": "Console Only",
+            "normalized_title": "console only",
+            "first_release_year": 2008,
+            "source_platform_names": ["Wii"],
+        },
+        {
+            "classification": "candidate_stranded",
+            "wikidata_id": "Q2",
+            "canonical_title": "Later Port",
+            "normalized_title": "later port",
+            "first_release_year": 2009,
+            "source_platform_names": ["Wii"],
+        },
+    ]
+    input_file.write_text(
+        "".join(json.dumps(record) + "\n" for record in records), encoding="utf-8"
+    )
+    config = tmp_path / "config.json"
+    config.write_text(
+        json.dumps(
+            {
+                "request_delay_seconds": 0,
+                "release_year_tolerance": 1,
+                "platform_aliases": {},
+            }
+        ),
+        encoding="utf-8",
+    )
+    responses = iter(
+        [
+            {
+                "games": [
+                    {
+                        "game_id": 1,
+                        "title": "Console Only",
+                        "platforms": [{"platform_name": "Wii", "first_release_date": "2008"}],
+                    }
+                ]
+            },
+            {
+                "games": [
+                    {
+                        "game_id": 2,
+                        "title": "Later Port",
+                        "platforms": [
+                            {"platform_name": "Wii", "first_release_date": "2009"},
+                            {"platform_name": "Windows", "first_release_date": "2012"},
+                        ],
+                    }
+                ]
+            },
+        ]
+    )
+    cache = tmp_path / "cache"
+    output = tmp_path / "validation.jsonl"
+    report = tmp_path / "report.json"
+    validator = MobyGamesValidator(lambda _: next(responses))
+
+    first = validator.validate(
+        input_file,
+        config,
+        cache,
+        output,
+        report,
+        api_key="test-key",
+        max_requests=1,
+    )
+    second = validator.validate(
+        input_file,
+        config,
+        cache,
+        output,
+        report,
+        api_key="test-key",
+        max_requests=1,
+    )
+
+    assert first.confirmed_stranded == 1
+    assert first.pending == 1
+    assert second.confirmed_stranded == 1
+    assert second.ported == 1
+    assert second.requests_made == 1
+    validated = [json.loads(line) for line in output.read_text(encoding="utf-8").splitlines()]
+    assert validated[1]["validation"]["other_platforms"] == ["windows"]

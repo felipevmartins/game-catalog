@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "source": "mobygames",
+  "request_delay_seconds": 1.05,
+  "release_year_tolerance": 1,
+  "pc_platform_names": ["DOS", "Linux", "Macintosh", "macOS", "Windows", "Windows 3.x"],
+  "platform_aliases": {
+    "Famicom": "Nintendo Entertainment System",
+    "NES": "Nintendo Entertainment System",
+    "Super Famicom": "Super Nintendo Entertainment System",
+    "SNES": "Super Nintendo Entertainment System",
+    "GameCube": "Nintendo GameCube",
+    "PlayStation Portable (PSP)": "PlayStation Portable",
+    "PS Vita": "PlayStation Vita",
+    "Xbox Series": "Xbox Series X|S"
+  }
+}
