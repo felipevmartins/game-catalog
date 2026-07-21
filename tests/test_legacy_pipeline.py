@@ -7,6 +7,7 @@ from game_catalog.integrations.legacy import (
     normalize_legacy,
 )
 from game_catalog.integrations.mobygames import MobyGamesValidator
+from game_catalog.integrations.rawg import RawgValidator
 
 
 def test_policy_covers_every_supported_console_family() -> None:
@@ -226,3 +227,52 @@ def test_mobygames_validation_is_resumable_and_classifies_ports(tmp_path: Path) 
     assert second.requests_made == 1
     validated = [json.loads(line) for line in output.read_text(encoding="utf-8").splitlines()]
     assert validated[1]["validation"]["other_platforms"] == ["windows"]
+
+
+def test_rawg_validation_uses_same_decision_states(tmp_path: Path) -> None:
+    candidate = {
+        "classification": "candidate_stranded",
+        "wikidata_id": "Q10",
+        "canonical_title": "Old Exclusive",
+        "normalized_title": "old exclusive",
+        "first_release_year": 2005,
+        "source_platform_names": ["PlayStation 2"],
+    }
+    input_file = tmp_path / "legacy.jsonl"
+    input_file.write_text(json.dumps(candidate) + "\n", encoding="utf-8")
+    config = tmp_path / "rawg.json"
+    config.write_text(
+        json.dumps(
+            {
+                "request_delay_seconds": 0,
+                "release_year_tolerance": 1,
+                "platform_aliases": {},
+            }
+        ),
+        encoding="utf-8",
+    )
+    response = {
+        "results": [
+            {
+                "id": 10,
+                "name": "Old Exclusive",
+                "released": "2005-01-01",
+                "platforms": [{"platform": {"name": "PlayStation 2"}}],
+            }
+        ]
+    }
+    validator = RawgValidator(lambda _: response)
+
+    counts = validator.validate(
+        input_file,
+        config,
+        tmp_path / "cache",
+        tmp_path / "output.jsonl",
+        tmp_path / "report.json",
+        api_key="test-key",
+        max_requests=1,
+    )
+
+    assert counts.confirmed_stranded == 1
+    output = json.loads((tmp_path / "output.jsonl").read_text(encoding="utf-8"))
+    assert output["validation"]["source"] == "rawg"

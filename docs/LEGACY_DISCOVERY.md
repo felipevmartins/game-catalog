@@ -11,7 +11,8 @@ game-catalog legacy discover
 game-catalog legacy normalize
 game-catalog legacy dry-run
 game-catalog legacy apply
-game-catalog legacy validate --max-requests 100
+game-catalog legacy validate --source mobygames --max-requests 100
+game-catalog legacy validate --source rawg --max-requests 500
 ```
 
 Raw Wikidata responses are cached under `data/raw/wikidata-legacy`. Normalized candidates are
@@ -42,6 +43,9 @@ safe to repeat.
 
 ## Second-source validation
 
+The `--source` option selects either `mobygames` or `rawg`. Both providers use independent caches,
+normalized outputs and aggregate reports, so one can be used now and the other added later.
+
 MobyGames validates the candidates in resumable batches. Configure the API key only in the
 process environment; never commit it:
 
@@ -71,3 +75,16 @@ backward-compatibility and official availability still require their own checks.
 Sports games are excluded by editorial preference from the legacy candidate queue. They remain in
 the normalized evidence with `excluded_sports`, allowing a specific title to be curated manually
 later without weakening the general rule.
+
+### RAWG
+
+RAWG uses `RAWG_API_KEY` from the process environment or the local `.env` file:
+
+```powershell
+$env:RAWG_API_KEY = "your-key"
+game-catalog legacy validate --source rawg --max-requests 500
+```
+
+Raw responses and the detailed normalized validation stay local because RAWG terms prohibit data
+redistribution. Only `data/reports/legacy-validation-rawg.json`, containing aggregate counts, is
+eligible for version control. The MobyGames adapter remains available for a later paid validation.

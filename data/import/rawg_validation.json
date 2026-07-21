@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "source": "rawg",
+  "request_delay_seconds": 0.15,
+  "release_year_tolerance": 1,
+  "platform_aliases": {
+    "NES": "Nintendo Entertainment System",
+    "SNES": "Super Nintendo Entertainment System",
+    "GameCube": "Nintendo GameCube",
+    "PSP": "PlayStation Portable",
+    "PS Vita": "PlayStation Vita",
+    "Xbox Series S/X": "Xbox Series X|S"
+  }
+}

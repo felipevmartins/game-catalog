@@ -20,6 +20,7 @@ from game_catalog.application.platform_catalog import PlatformCatalogService
 from game_catalog.application.unit_of_work import UnitOfWork
 from game_catalog.integrations.legacy import LegacyWikidataCollector, normalize_legacy
 from game_catalog.integrations.mobygames import MobyGamesValidator
+from game_catalog.integrations.rawg import RawgValidator
 from game_catalog.integrations.wikidata import WikidataCollector, normalize_raw_directory
 from game_catalog.persistence.database import create_database_engine, create_session_factory
 
@@ -64,6 +65,20 @@ def selected_database(context: typer.Context) -> Path:
     if context.parent is None or not isinstance(context.parent.obj, Path):
         raise RuntimeError("database context is unavailable")
     return context.parent.obj
+
+
+def environment_secret(name: str) -> str | None:
+    value = os.environ.get(name)
+    if value:
+        return value
+    dotenv = Path(".env")
+    if not dotenv.exists():
+        return None
+    for line in dotenv.read_text(encoding="utf-8").splitlines():
+        key, separator, candidate = line.partition("=")
+        if separator and key.strip() == name:
+            return candidate.strip().strip('"').strip("'") or None
+    return None
 
 
 @app.command()
@@ -337,6 +352,7 @@ def apply_legacy(
 
 @legacy_app.command("validate")
 def validate_legacy(
+    source: Annotated[str, typer.Option("--source")] = "mobygames",
     input_file: Annotated[Path, typer.Option("--input")] = Path(
         "data/normalized/legacy-games.jsonl"
     ),
@@ -352,15 +368,32 @@ def validate_legacy(
     report: Annotated[Path, typer.Option("--report")] = Path("data/reports/legacy-validation.json"),
     max_requests: Annotated[int, typer.Option("--max-requests", min=0)] = 100,
 ) -> None:
-    """Validate legacy candidates against MobyGames in resumable batches."""
+    """Validate legacy candidates against MobyGames or RAWG in resumable batches."""
+    validator: RawgValidator | MobyGamesValidator
+    if source == "rawg":
+        if config == Path("data/import/mobygames_validation.json"):
+            config = Path("data/import/rawg_validation.json")
+        if cache_directory == Path("data/raw/mobygames-legacy"):
+            cache_directory = Path("data/raw/rawg-legacy")
+        if output == Path("data/normalized/legacy-validation.jsonl"):
+            output = Path("data/normalized/legacy-validation-rawg.jsonl")
+        if report == Path("data/reports/legacy-validation.json"):
+            report = Path("data/reports/legacy-validation-rawg.json")
+        validator = RawgValidator()
+        api_key = environment_secret("RAWG_API_KEY")
+    elif source == "mobygames":
+        validator = MobyGamesValidator()
+        api_key = environment_secret("MOBYGAMES_API_KEY")
+    else:
+        raise typer.BadParameter("source must be 'mobygames' or 'rawg'")
     try:
-        counts = MobyGamesValidator().validate(
+        counts = validator.validate(
             input_file,
             config,
             cache_directory,
             output,
             report,
-            api_key=os.environ.get("MOBYGAMES_API_KEY"),
+            api_key=api_key,
             max_requests=max_requests,
         )
     except ValueError as error:

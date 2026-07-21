@@ -1,0 +1,11 @@
+{
+  "source": "rawg",
+  "counts": {
+    "confirmed_stranded": 33,
+    "ported": 17,
+    "not_found": 50,
+    "review_required": 0,
+    "pending": 7828,
+    "requests_made": 0
+  }
+}

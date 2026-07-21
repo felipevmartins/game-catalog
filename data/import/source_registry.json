@@ -31,6 +31,22 @@
       "contract_version": "mobygames-v1-2026-07",
       "enabled": true,
       "credential_required": true
+    },
+    {
+      "code": "rawg",
+      "name": "RAWG",
+      "source_type": "commercial_database",
+      "integration_type": "rest_api",
+      "base_url": "https://api.rawg.io/api",
+      "priority": 60,
+      "default_confidence": "medium",
+      "license_name": "RAWG API terms",
+      "redistribution_policy": "no_redistribution",
+      "terms_url": "https://rawg.io/tos_api",
+      "terms_reviewed_at": "2026-07-20T00:00:00.000Z",
+      "contract_version": "rawg-api-2026-07",
+      "enabled": true,
+      "credential_required": true
     }
   ]
 }
